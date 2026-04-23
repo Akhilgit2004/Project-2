@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cross-Cultural Emotions Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1f77b4;
+            --secondary: #d62728;
+            --tertiary: #2ca02c;
+            --bg-light: #f8f9fa;
+        }
+        
+        body {
+            background-color: var(--bg-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+        
+        .nav-pills .nav-link {
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            margin: 0 0.25rem;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-pills .nav-link.active {
+            background-color: var(--primary);
+        }
+        
+        .nav-pills .nav-link:hover:not(.active) {
+            background-color: #e9ecef;
+        }
+        
+        .card {
+            border: none;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            border-radius: 1rem;
+        }
+        
+        .card-header {
+            background-color: white;
+            border-bottom: 1px solid #e9ecef;
+            font-weight: 600;
+            padding: 1rem 1.5rem;
+        }
+        
+        .form-select, .form-label {
+            font-size: 0.9rem;
+        }
+        
+        .btn-generate {
+            background: linear-gradient(135deg, var(--primary), #2c5aa0);
+            border: none;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-generate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(31, 119, 180, 0.4);
+        }
+        
+        .graph-container {
+            background: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .graph-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .loading-spinner {
+            width: 3rem;
+            height: 3rem;
+            border: 0.25rem solid #f3f3f3;
+            border-top: 0.25rem solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .placeholder-text {
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+        
+        .footer {
+            background-color: white;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+        
+        .color-legend {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 4px;
+        }
+        
+        .color-english { background-color: var(--primary); }
+        .color-hindi { background-color: var(--secondary); }
+        .color-tamil { background-color: var(--tertiary); }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-chart-line me-2"></i>
+                Cross-Cultural Emotions Dashboard
+            </a>
+            <span class="navbar-text text-muted">
+                IEEE Publication-Ready Visualizations
+            </span>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid px-4 py-4">
+        <!-- Tab Navigation -->
+        <ul class="nav nav-pills justify-content-center mb-4" id="graphTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="timeseries-tab" data-bs-toggle="pill" data-bs-target="#timeseries" type="button" role="tab">
+                    <i class="fas fa-chart-line me-2"></i>Time Series
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="radar-tab" data-bs-toggle="pill" data-bs-target="#radar" type="button" role="tab">
+                    <i class="fas fa-bullseye me-2"></i>Radar Chart
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="correlation-tab" data-bs-toggle="pill" data-bs-target="#correlation" type="button" role="tab">
+                    <i class="fas fa-th me-2"></i>Correlation Matrix
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="mirror-tab" data-bs-toggle="pill" data-bs-target="#mirror" type="button" role="tab">
+                    <i class="fas fa-copy me-2"></i>Mirror Hypothesis
+                </button>
+            </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="graphTabsContent">
+            <!-- Time Series Tab -->
+            <div class="tab-pane fade show active" id="timeseries" role="tabpanel">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-chart-line me-2"></i>Time Series with Rolling Average</span>
+                        <div id="ts-legend">
+                            <span class="color-legend color-english"></span>English
+                            <span class="color-legend color-hindi"></span>Hindi
+                            <span class="color-legend color-tamil"></span>Tamil
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-3">
+                                <label class="form-label">Target Emotion</label>
+                                <select class="form-select" id="ts-emotion">
+                                    {% for emotion in emotions %}
+                                    <option value="{{ emotion }}">{{ emotion }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Language</label>
+                                <select class="form-select" id="ts-language">
+                                    <option value="All">All Languages</option>
+                                    <option value="English">English</option>
+                                    <option value="Hindi">Hindi</option>
+                                    <option value="Tamil">Tamil</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 d-flex align-items-end">
+                                <button class="btn btn-primary btn-generate w-100" onclick="generateGraph('timeseries')">
+                                    <i class="fas fa-sync-alt me-2"></i>Generate
+                                </button>
+                            </div>
+                        </div>
+                        <div class="graph-container" id="timeseries-graph">
+                            <span class="placeholder-text">Select emotion & language, then click Generate</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Radar Chart Tab -->
+            <div class="tab-pane fade" id="radar" role="tabpanel">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-bullseye me-2"></i>Radar Chart</span>
+                        <div id="radar-legend">
+                            <span class="color-legend color-english"></span>English
+                            <span class="color-legend color-hindi"></span>Hindi
+                            <span class="color-legend color-tamil"></span>Tamil
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-3">
+                                <label class="form-label">Target Decade</label>
+                                <select class="form-select" id="radar-decade">
+                                    {% for decade in decades %}
+                                    <option value="{{ decade }}" {% if decade == 1940 %}selected{% endif %}>{{ decade }}s</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Language</label>
+                                <select class="form-select" id="radar-language">
+                                    <option value="All">All Languages</option>
+                                    <option value="English">English</option>
+                                    <option value="Hindi">Hindi</option>
+                                    <option value="Tamil">Tamil</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 d-flex align-items-end">
+                                <button class="btn btn-primary btn-generate w-100" onclick="generateGraph('radar')">
+                                    <i class="fas fa-sync-alt me-2"></i>Generate
+                                </button>
+                            </div>
+                        </div>
+                        <div class="graph-container" id="radar-graph">
+                            <span class="placeholder-text">Select decade & language, then click Generate</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Correlation Matrix Tab -->
+            <div class="tab-pane fade" id="correlation" role="tabpanel">
+                <div class="card">
+                    <div class="card-header">
+                        <span><i class="fas fa-th me-2"></i>Emotion Correlation Matrix</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-3">
+                                <label class="form-label">Language</label>
+                                <select class="form-select" id="corr-language">
+                                    {% for language in languages %}
+                                    <option value="{{ language }}">{{ language }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-3 d-flex align-items-end">
+                                <button class="btn btn-primary btn-generate w-100" onclick="generateGraph('correlation')">
+                                    <i class="fas fa-sync-alt me-2"></i>Generate
+                                </button>
+                            </div>
+                        </div>
+                        <div class="graph-container" id="correlation-graph">
+                            <span class="placeholder-text">Select language and click Generate</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mirror Hypothesis Tab -->
+            <div class="tab-pane fade" id="mirror" role="tabpanel">
+                <div class="card">
+                    <div class="card-header">
+                        <span><i class="fas fa-copy me-2"></i>Mirror Hypothesis - Literature vs Historical Events</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-3">
+                                <label class="form-label">Target Emotion</label>
+                                <select class="form-select" id="mirror-emotion">
+                                    {% for emotion in emotions %}
+                                    <option value="{{ emotion }}">{{ emotion }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Language</label>
+                                <select class="form-select" id="mirror-language">
+                                    <option value="English">English</option>
+                                    <option value="Hindi">Hindi</option>
+                                    <option value="Tamil">Tamil</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 d-flex align-items-end">
+                                <button class="btn btn-primary btn-generate w-100" onclick="generateGraph('mirror')">
+                                    <i class="fas fa-sync-alt me-2"></i>Generate
+                                </button>
+                            </div>
+                        </div>
+                        <div class="graph-container" id="mirror-graph">
+                            <span class="placeholder-text">Select emotion and click Generate</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer text-center">
+        <div class="container">
+            <span class="text-muted">
+                Cross-Cultural Emotions Analysis Dashboard | IEEE Publication-Ready Visualizations
+            </span>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Update legend visibility based on language selection
+        document.getElementById('ts-language').addEventListener('change', function() {
+            const legend = document.getElementById('ts-legend');
+            if (this.value === 'All') {
+                legend.innerHTML = '<span class="color-legend color-english"></span>English<span class="color-legend color-hindi"></span>Hindi<span class="color-legend color-tamil"></span>Tamil';
+            } else {
+                const langColors = {'English': 'color-english', 'Hindi': 'color-hindi', 'Tamil': 'color-tamil'};
+                const langNames = {'English': 'English', 'Hindi': 'Hindi', 'Tamil': 'Tamil'};
+                legend.innerHTML = '<span class="color-legend ' + langColors[this.value] + '"></span>' + langNames[this.value];
+            }
+        });
+
+        document.getElementById('radar-language').addEventListener('change', function() {
+            const legend = document.getElementById('radar-legend');
+            if (this.value === 'All') {
+                legend.innerHTML = '<span class="color-legend color-english"></span>English<span class="color-legend color-hindi"></span>Hindi<span class="color-legend color-tamil"></span>Tamil';
+            } else {
+                const langColors = {'English': 'color-english', 'Hindi': 'color-hindi', 'Tamil': 'color-tamil'};
+                const langNames = {'English': 'English', 'Hindi': 'Hindi', 'Tamil': 'Tamil'};
+                legend.innerHTML = '<span class="color-legend ' + langColors[this.value] + '"></span>' + langNames[this.value];
+            }
+        });
+
+        async function generateGraph(graphType) {
+            let container, data = {};
+            
+            if (graphType === 'timeseries') {
+                container = document.getElementById('timeseries-graph');
+                data = {
+                    type: 'timeseries',
+                    emotion: document.getElementById('ts-emotion').value,
+                    language: document.getElementById('ts-language').value
+                };
+            } else if (graphType === 'radar') {
+                container = document.getElementById('radar-graph');
+                data = {
+                    type: 'radar',
+                    decade: document.getElementById('radar-decade').value,
+                    language: document.getElementById('radar-language').value
+                };
+            } else if (graphType === 'correlation') {
+                container = document.getElementById('correlation-graph');
+                data = {
+                    type: 'correlation',
+                    language: document.getElementById('corr-language').value
+                };
+            } else if (graphType === 'mirror') {
+                container = document.getElementById('mirror-graph');
+                data = {
+                    type: 'mirror',
+                    emotion: document.getElementById('mirror-emotion').value,
+                    language: document.getElementById('mirror-language').value
+                };
+            }
+            
+            // Show loading
+            container.innerHTML = '<div class="loading-spinner"></div>';
+            
+            try {
+                const response = await fetch('/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    container.innerHTML = `<img src="${result.graph_url}" alt="${graphType} graph" class="img-fluid">`;
+                } else {
+                    container.innerHTML = `<span class="text-danger">Error: ${result.error}</span>`;
+                }
+            } catch (error) {
+                container.innerHTML = `<span class="text-danger">Error: ${error.message}</span>`;
+            }
+        }
+    </script>
+</body>
+</html>
