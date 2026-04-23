@@ -4,5 +4,3 @@ venv/
 ENV/
 .idea/
 .vscode/
-*.swp
-*.swo
