@@ -1,0 +1,7 @@
+__pycache__/
+.venv/
+venv/
+ENV/
+.idea/
+.vscode/
+static/graphs/

@@ -1,148 +1,1458 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cross-Cultural Emotions Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="/static/css/shared.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1f77b4',
+                        secondary: '#d62728',
+                        tertiary: '#2ca02c',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Segoe UI', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out',
+                        'slide-up': 'slideUp 0.4s ease-out',
+                        'pulse-soft': 'pulseSoft 2s infinite',
+                        'shimmer': 'shimmer 1.5s infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.95)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '200% 0' },
+                            '100%': { backgroundPosition: '-200% 0' },
+                        },
+                        pulseSoft: {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0.7' },
+                        },
+                    },
+                    backdropBlur: {
+                        xs: '2px',
+                    },
+                },
+            },
+        }
+    </script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
         :root {
             --primary: #1f77b4;
+            --primary-light: #4da8da;
+            --primary-dark: #2c5aa0;
             --secondary: #d62728;
+            --secondary-light: #ff6b6b;
             --tertiary: #2ca02c;
+            --tertiary-light: #51cf66;
+            --accent-purple: #9c27b0;
+            --accent-purple-light: #ba68c8;
+            --accent-orange: #ff9800;
+            --accent-orange-light: #ffb74d;
+            --accent-teal: #009688;
+            --accent-teal-light: #4db6ac;
+            --accent-pink: #e91e63;
+            --accent-pink-light: #f06292;
+            --accent-indigo: #3f51b5;
+            --accent-indigo-light: #7986cb;
             --bg-light: #f8f9fa;
+            --bg-card: #ffffff;
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --border-color: #dee2e6;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+            --shadow-primary: 0 4px 20px rgba(31, 119, 180, 0.3);
+            --shadow-secondary: 0 4px 20px rgba(214, 39, 40, 0.3);
+            --shadow-tertiary: 0 4px 20px rgba(44, 160, 44, 0.3);
+            --gradient-primary: linear-gradient(135deg, #1f77b4, #2c5aa0);
+            --gradient-secondary: linear-gradient(135deg, #d62728, #ff6b6b);
+            --gradient-tertiary: linear-gradient(135deg, #2ca02c, #51cf66);
+            --gradient-purple: linear-gradient(135deg, #9c27b0, #ba68c8);
+            --gradient-sunset: linear-gradient(135deg, #ff9800, #ff5722);
+            --gradient-ocean: linear-gradient(135deg, #009688, #00bcd4);
         }
-        
+
+        [data-theme="dark"] {
+            --bg-light: #0f0f1a;
+            --bg-card: #1a1a2e;
+            --text-primary: #e9ecef;
+            --text-secondary: #adb5bd;
+            --border-color: #2d2d44;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --primary: #64b5f6;
+            --primary-light: #90caf9;
+            --primary-dark: #42a5f5;
+            --secondary: #ff8a80;
+            --secondary-light: #ffab91;
+            --tertiary: #81c784;
+            --tertiary-light: #a5d6a7;
+            --accent-purple: #ce93d8;
+            --accent-purple-light: #e1bee7;
+            --accent-orange: #ffcc80;
+            --accent-orange-light: #ffe0b2;
+            --accent-teal: #80cbc4;
+            --accent-teal-light: #b2dfdb;
+            --accent-pink: #f48fb1;
+            --accent-pink-light: #f8bbd0;
+            --accent-indigo: #9fa8da;
+            --accent-indigo-light: #c5cae9;
+            --shadow-primary: 0 4px 20px rgba(100, 181, 246, 0.4);
+            --shadow-secondary: 0 4px 20px rgba(255, 138, 128, 0.4);
+            --shadow-tertiary: 0 4px 20px rgba(129, 199, 132, 0.4);
+        }
+
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease, opacity 0.2s ease;
+        }
+
         body {
-            background-color: var(--bg-light);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-light);
+            background-image: 
+                radial-gradient(ellipse at top left, rgba(31, 119, 180, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at top right, rgba(156, 39, 176, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom, rgba(233, 30, 99, 0.03) 0%, transparent 50%);
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: visible;
         }
-        
+
+        /* Animated background pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(31, 119, 180, 0.03) 0%, transparent 40%),
+                radial-gradient(circle at 80% 20%, rgba(156, 39, 176, 0.03) 0%, transparent 40%),
+                radial-gradient(circle at 40% 40%, rgba(233, 30, 99, 0.02) 0%, transparent 30%);
+            pointer-events: none;
+            z-index: -1;
+            animation: backgroundShift 20s ease-in-out infinite;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% {
+                background-position: 0% 0%, 100% 100%, 50% 50%;
+                opacity: 1;
+            }
+            25% {
+                background-position: 20% 80%, 80% 20%, 30% 70%;
+                opacity: 0.8;
+            }
+            50% {
+                background-position: 100% 0%, 0% 100%, 70% 30%;
+                opacity: 1;
+            }
+            75% {
+                background-position: 80% 20%, 20% 80%, 60% 40%;
+                opacity: 0.9;
+            }
+        }
+
+        /* Floating orbs animation */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 10%;
+            right: 10%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+            opacity: 0.1;
+            pointer-events: none;
+            z-index: -1;
+            animation: floatOrb 15s ease-in-out infinite;
+        }
+
+        @keyframes floatOrb {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(-20px, 30px) scale(1.1); }
+            66% { transform: translate(20px, -20px) scale(0.9); }
+        }
+
+        /* Additional floating orb */
+        .orb-2::after {
+            content: '';
+            position: fixed;
+            bottom: 20%;
+            left: 15%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, var(--accent-purple) 0%, transparent 70%);
+            opacity: 0.08;
+            pointer-events: none;
+            z-index: -1;
+            animation: floatOrb2 18s ease-in-out infinite;
+        }
+
+        @keyframes floatOrb2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, -40px) scale(1.2); }
+        }
+
+        /* Page load animations */
+        .animate-on-load {
+            opacity: 0;
+            animation: slideUpFade 0.6s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Pulse animation for active elements */
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(31, 119, 180, 0.4); }
+            50% { box-shadow: 0 0 20px 5px rgba(31, 119, 180, 0.2); }
+        }
+
+        .pulse-glow {
+            animation: pulseGlow 2s infinite;
+        }
+
+        /* Float animation for icons */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Shimmer effect for cards */
+        @keyframes shimmerEffect {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .shimmer {
+            background: linear-gradient(90deg, var(--border-color) 25%, var(--bg-light) 50%, var(--border-color) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite, shimmerEffect 2s infinite linear;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        [data-theme="dark"] .glass {
+            background: rgba(26, 26, 46, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        [data-theme="dark"] .navbar {
+            background: rgba(26, 26, 46, 0.9) !important;
+        }
+
         .navbar-brand {
             font-weight: 700;
             font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), #2c5aa0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        
+
+        [data-theme="dark"] .navbar-brand {
+            background: linear-gradient(135deg, var(--primary), #90caf9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
         .nav-pills .nav-link {
-            border-radius: 0.5rem;
+            border-radius: 0.75rem;
             padding: 0.75rem 1.5rem;
             margin: 0 0.25rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--text-primary);
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-pills .nav-link::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--primary), #2c5aa0);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-pills .nav-link.active {
+            background: linear-gradient(135deg, var(--primary), #2c5aa0);
+            color: white;
+            box-shadow: 0 4px 15px rgba(31, 119, 180, 0.4);
+        }
+
+        .nav-pills .nav-link:hover:not(.active) {
+            background: var(--border-color);
+            transform: translateY(-2px);
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            border-radius: 1rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px) scale(1.01);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        /* Card with colored border on hover */
+        .card-hover-color {
+            transition: all 0.4s ease;
+        }
+
+        .card-hover-color:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-primary);
+        }
+
+        /* Glow effect cards */
+        .card-glow {
+            position: relative;
+        }
+
+        .card-glow::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            background: linear-gradient(135deg, var(--primary), var(--accent-purple), var(--accent-pink));
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.4s ease;
+            filter: blur(8px);
+        }
+
+        .card-glow:hover::after {
+            opacity: 0.3;
+        }
+
+        .card-header {
+            background: transparent;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+            padding: 1.25rem 1.5rem;
+        }
+
+        .form-select, .form-control, .form-label {
+            font-size: 0.9rem;
+            background-color: var(--bg-card);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+            border-radius: 0.5rem;
             transition: all 0.3s ease;
         }
-        
-        .nav-pills .nav-link.active {
+
+        .form-select:focus, .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(31, 119, 180, 0.15), 0 4px 15px rgba(31, 119, 180, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .form-select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%231f77b4' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 12px 12px;
+            padding-right: 2.5rem;
+        }
+
+        /* Focus-within effect for form groups */
+        .form-group-focus {
+            transition: all 0.3s ease;
+        }
+
+        .form-group-focus:focus-within {
+            transform: translateY(-2px);
+        }
+
+        .form-group-focus:focus-within label {
+            color: var(--primary);
+        }
+
+        /* Custom checkbox/radio styling */
+        .form-check-input:checked {
             background-color: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(31, 119, 180, 0.2);
         }
-        
-        .nav-pills .nav-link:hover:not(.active) {
-            background-color: #e9ecef;
+
+        .form-check-input:focus {
+            box-shadow: 0 0 0 3px rgba(31, 119, 180, 0.15);
         }
-        
-        .card {
-            border: none;
-            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-            border-radius: 1rem;
-        }
-        
-        .card-header {
-            background-color: white;
-            border-bottom: 1px solid #e9ecef;
-            font-weight: 600;
-            padding: 1rem 1.5rem;
-        }
-        
-        .form-select, .form-label {
-            font-size: 0.9rem;
-        }
-        
+
         .btn-generate {
             background: linear-gradient(135deg, var(--primary), #2c5aa0);
             border: none;
             padding: 0.75rem 2rem;
             font-weight: 600;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: white;
+            border-radius: 0.75rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(31, 119, 180, 0.3);
         }
-        
+
+        .btn-generate::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent, rgba(255,255,255,0.2));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .btn-generate::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
         .btn-generate:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(31, 119, 180, 0.4);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(31, 119, 180, 0.5), 0 0 30px rgba(31, 119, 180, 0.2);
         }
-        
+
+        .btn-generate:hover::before {
+            opacity: 1;
+        }
+
+        .btn-generate:active {
+            transform: translateY(-1px) scale(0.98);
+            box-shadow: 0 4px 10px rgba(31, 119, 180, 0.3);
+        }
+
+        /* Animated border button */
+        .btn-animated {
+            position: relative;
+            background: var(--bg-card);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-animated::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gradient-primary);
+            z-index: -1;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-animated:hover {
+            color: white;
+        }
+
+        .btn-animated:hover::before {
+            transform: scaleX(1);
+        }
+
         .graph-container {
-            background: white;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            min-height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            min-height: 450px;
+            display: block;
+            position: relative;
+            overflow-x: auto;
+            overflow-y: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.03);
         }
-        
+
+        .graph-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent-purple), var(--accent-pink), var(--primary));
+            background-size: 300% 100%;
+            animation: gradientMove 3s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .graph-container:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 300% 50%; }
+        }
+
         .graph-container img {
             max-width: 100%;
             height: auto;
+            animation: fadeInUp 0.5s ease;
+            transition: transform 0.3s ease;
         }
-        
+
+        .graph-container img:hover {
+            transform: scale(1.02);
+        }
+
+        /* Plotly chart container - preserve Plotly's width for scrolling */
+        .graph-container .js-plotly-plot,
+        .graph-container .plotly,
+        .graph-container > div {
+            height: 100% !important;
+            min-height: 400px;
+        }
+
+        /* Custom scrollbar for graph containers */
+        .graph-container {
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) var(--bg-secondary);
+        }
+
+        .graph-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .graph-container::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+            border-radius: 4px;
+        }
+
+        .graph-container::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        .graph-container::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Graph container loading animation */
+        .graph-loading {
+            position: relative;
+        }
+
+        .graph-loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: loadingShimmer 1.5s infinite;
+        }
+
+        @keyframes loadingShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
         .loading-spinner {
             width: 3rem;
             height: 3rem;
-            border: 0.25rem solid #f3f3f3;
-            border-top: 0.25rem solid var(--primary);
+            border: 3px solid var(--border-color);
+            border-top: 3px solid var(--primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
-        
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        
+
+        .skeleton {
+            background: linear-gradient(90deg, var(--border-color) 25%, var(--bg-light) 50%, var(--border-color) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 0.75rem;
+            height: 300px;
+            width: 100%;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
         .placeholder-text {
-            color: #6c757d;
+            color: var(--text-secondary);
             font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--bg-light), var(--bg-card));
+            border-radius: 1rem;
+            border: 2px dashed var(--border-color);
+            transition: all 0.3s ease;
         }
-        
+
+        .placeholder-text:hover {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(31, 119, 180, 0.05), var(--bg-card));
+        }
+
+        .placeholder-text i {
+            font-size: 2rem;
+            color: var(--primary);
+            opacity: 0.5;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .placeholder-text:hover i {
+            opacity: 1;
+            animation: pulseGlow 2s infinite;
+        }
+
         .footer {
-            background-color: white;
-            padding: 1rem 0;
-            margin-top: 2rem;
+            background: var(--bg-card);
+            padding: 1.5rem 0;
+            margin-top: 3rem;
+            border-top: 1px solid var(--border-color);
         }
-        
+
         .color-legend {
             display: inline-block;
             width: 12px;
             height: 12px;
             border-radius: 50%;
-            margin-right: 4px;
+            margin-right: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        
-        .color-english { background-color: var(--primary); }
-        .color-hindi { background-color: var(--secondary); }
-        .color-tamil { background-color: var(--tertiary); }
+
+        .color-english { background: linear-gradient(135deg, #1f77b4, #4da8da); }
+        .color-hindi { background: linear-gradient(135deg, #d62728, #ff6b6b); }
+        .color-tamil { background: linear-gradient(135deg, #2ca02c, #51cf66); }
+
+        .graph-controls {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .btn-icon {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.75rem;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-icon::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--primary), #2c5aa0);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn-icon:hover {
+            color: white;
+            border-color: var(--primary);
+            transform: translateY(-3px) rotate(5deg);
+            box-shadow: 0 6px 20px rgba(31, 119, 180, 0.4);
+        }
+
+        .btn-icon:hover::before {
+            opacity: 1;
+        }
+
+        .btn-icon i {
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-icon:hover i {
+            transform: scale(1.2);
+        }
+
+        /* Bounce effect */
+        .btn-bounce {
+            transition: transform 0.3s ease;
+        }
+
+        .btn-bounce:hover {
+            animation: bounce 0.5s ease;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .btn-icon:active {
+            transform: scale(0.95);
+        }
+
+        .customize-panel {
+            background: var(--bg-light);
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent-purple);
+            transform: rotate(15deg) scale(1.05);
+            box-shadow: 0 4px 15px rgba(156, 39, 176, 0.3);
+        }
+
+        .theme-toggle:hover::before {
+            opacity: 1;
+        }
+
+        .theme-toggle i {
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle:hover i {
+            transform: rotate(360deg);
+        }
+
+        /* Theme swatches */
+        .theme-swatch {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .theme-swatch:hover {
+            transform: scale(1.15);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-swatch.active {
+            border-color: var(--text-primary) !important;
+            box-shadow: 0 0 0 3px var(--bg-light);
+        }
+
+        /* Color cycling animation */
+        @keyframes colorCycle {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        .color-cycle-active {
+            animation: colorCycle 10s linear infinite;
+        }
+
+        /* Rainbow gradient animation */
+        @keyframes rainbowGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .rainbow-animate {
+            background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff, #5f27cd);
+            background-size: 200% 200%;
+            animation: rainbowGradient 5s ease infinite;
+        }
+
+        /* Interactive ripple effect */
+        .ripple {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ripple::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .ripple:active::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Dynamic hover colors - cycles through accent colors */
+        .btn-dynamic:hover {
+            background: linear-gradient(45deg, var(--primary), var(--accent-purple), var(--accent-pink), var(--accent-orange));
+            background-size: 300% 300%;
+            animation: gradientMove 2s ease infinite;
+        }
+
+        @keyframes dynamicColorShift {
+            0%, 100% { --dynamic-color: var(--primary); }
+            25% { --dynamic-color: var(--accent-purple); }
+            50% { --dynamic-color: var(--accent-pink); }
+            75% { --dynamic-color: var(--accent-orange); }
+        }
+
+        /* Links get rainbow underline on hover */
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent-purple), var(--accent-pink));
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+            width: 80%;
+        }
+
+        .nav-link.active::after {
+            width: 80%;
+            background: linear-gradient(90deg, var(--primary), var(--accent-purple));
+        }
+
+        /* Animated gradient text */
+        .gradient-text {
+            background: linear-gradient(45deg, var(--primary), var(--accent-purple), var(--accent-pink), var(--accent-orange));
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientMove 3s ease infinite;
+        }
+
+        /* Dynamic card glow based on theme */
+        .card-glow-dynamic {
+            transition: all 0.4s ease;
+        }
+
+        .card-glow-dynamic:hover {
+            box-shadow: 0 0 30px var(--primary), 0 0 60px var(--accent-purple);
+        }
+
+        /* Animated gradient border */
+        .gradient-border {
+            position: relative;
+        }
+
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(45deg, var(--primary), var(--accent-purple), var(--accent-pink), var(--accent-orange), var(--primary));
+            background-size: 400% 400%;
+            animation: gradientMove 4s ease infinite;
+            border-radius: inherit;
+            z-index: -1;
+        }
+
+        /* Pulsing dot indicator */
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary);
+            animation: pulseDot 2s infinite;
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.5; }
+        }
+
+        /* Shimmering text effect */
+        .shimmer-text {
+            background: linear-gradient(90deg, var(--primary), var(--accent-purple), var(--accent-pink), var(--primary));
+            background-size: 200% 100%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmerText 3s infinite;
+        }
+
+        @keyframes shimmerText {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .tooltip-icon {
+            color: var(--text-secondary);
+            cursor: help;
+            margin-left: 0.25rem;
+            transition: color 0.2s;
+        }
+
+        .tooltip-icon:hover {
+            color: var(--primary);
+        }
+
+        .stats-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            margin-top: 1rem;
+            color: var(--text-primary);
+        }
+
+        .stats-panel h6 {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-item span {
+            color: inherit;
+        }
+
+        .stat-item .significance {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .significance-*** { color: #28a745; }
+        .significance-** { color: #17a2b8; }
+        .significance-* { color: #ffc107; }
+        .significance-ns { color: var(--text-secondary); }
+
+        .info-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--primary);
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            margin-top: 1rem;
+            animation: slideUp 0.4s ease-out;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(31, 119, 180, 0.1) 0%, transparent 70%);
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover::before {
+            transform: scale(2);
+        }
+
+        .info-card:hover {
+            box-shadow: var(--shadow-primary);
+            transform: translateX(5px);
+        }
+
+        .info-card .card-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+        }
+
+        .info-card .card-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent-purple));
+            border-radius: 2px;
+        }
+
+        /* Color-coded info cards based on content */
+        .info-card.insight-positive {
+            border-left-color: var(--tertiary);
+        }
+
+        .info-card.insight-negative {
+            border-left-color: var(--secondary);
+        }
+
+        .info-card.insight-neutral {
+            border-left-color: var(--accent-purple);
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .info-label i {
+            color: var(--primary);
+        }
+
+        .info-value {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .info-value.positive { color: #28a745; }
+        .info-value.negative { color: #dc3545; }
+        .info-value.neutral { color: #6c757d; }
+
+        .technical-details {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .technical-toggle {
+            cursor: pointer;
+            color: var(--primary);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+            transition: color 0.2s;
+        }
+
+        .technical-toggle:hover {
+            color: var(--text-primary);
+        }
+
+        .technical-toggle i {
+            transition: transform 0.3s;
+        }
+
+        .technical-toggle.open i {
+            transform: rotate(180deg);
+        }
+
+        .technical-content {
+            display: none;
+            margin-top: 0.75rem;
+            padding: 0.75rem;
+            background: var(--bg-light);
+            border-radius: 0.5rem;
+            font-size: 0.8rem;
+            font-family: monospace;
+        }
+
+        .technical-content.show {
+            display: block;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .technical-content .tech-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.25rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .technical-content .tech-row:last-child {
+            border-bottom: none;
+        }
+
+        .comparison-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-container {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-pills {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.5rem;
+            }
+
+            .nav-pills .nav-link {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+
+            .graph-controls {
+                flex-wrap: wrap;
+            }
+        }
+
+        .modal-content {
+            background-color: var(--bg-card);
+            color: var(--text-primary);
+            border-radius: 1rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .dropdown-menu {
+            background-color: var(--bg-card);
+            border-color: var(--border-color);
+            border-radius: 0.75rem;
+            box-shadow: var(--shadow-lg);
+            padding: 0.5rem;
+        }
+
+        .dropdown-item {
+            color: var(--text-primary);
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            transition: all 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background: linear-gradient(135deg, var(--primary), #2c5aa0);
+            color: white;
+        }
+
+        .tab-content {
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-pane {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        .tab-pane.show {
+            display: block;
+        }
+
+        .tab-pane:not(.show) {
+            display: none;
+        }
+
+        .tab-pane .card {
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: none !important;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .btn-share {
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+        }
+
+        .btn-share:hover {
+            background: linear-gradient(135deg, var(--primary), #2c5aa0);
+            color: white;
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .embed-code {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            background: var(--bg-light);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+        }
+
+        .toast-container {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 9999;
+        }
+
+        .toast {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            box-shadow: var(--shadow-lg);
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .nav-link.active {
+            animation: pulseSoft 2s infinite;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-light);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="toast-container" id="toastContainer"></div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top glass">
         <div class="container-fluid px-4">
             <a class="navbar-brand" href="#">
-                <i class="fas fa-chart-line me-2"></i>
-                Cross-Cultural Emotions Dashboard
+                <i class="fas fa-chart-line me-2" style="color: var(--primary);"></i>
+                Cross-Cultural Emotions
             </a>
-            <span class="navbar-text text-muted">
-                IEEE Publication-Ready Visualizations
-            </span>
+            <div class="d-flex align-items-center gap-3">
+                <a href="/methodology" class="btn btn-sm btn-outline-secondary" target="_blank">
+                    <i class="fas fa-book me-1"></i> Methodology
+                </a>
+                <a href="/glossary" class="btn btn-sm btn-outline-secondary" target="_blank">
+                    <i class="fas fa-bookmark me-1"></i> Glossary
+                </a>
+                <a href="/discoveries" class="btn btn-sm btn-outline-secondary" target="_blank">
+                    <i class="fas fa-lightbulb me-1"></i> Discoveries
+                </a>
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-icon" id="colorThemeBtn" data-bs-toggle="dropdown" aria-label="Color Theme" title="Color Theme" style="width: 40px; height: 40px; border-radius: 0.75rem; background: var(--bg-card); border: 1px solid var(--border-color);">
+                        <i class="fas fa-palette" id="color-theme-icon"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end" style="min-width: 200px; padding: 0.5rem;">
+                        <div class="px-2 py-1 mb-2" style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600;">COLOR THEME</div>
+                        <div class="d-flex flex-wrap gap-2 px-2 mb-2">
+                            <button class="theme-swatch" data-theme="ocean" style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #0077b6, #00b4d8); border: 2px solid transparent; cursor: pointer;" title="Ocean"></button>
+                            <button class="theme-swatch" data-theme="sunset" style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #ff6b6b, #feca57); border: 2px solid transparent; cursor: pointer;" title="Sunset"></button>
+                            <button class="theme-swatch" data-theme="forest" style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #2d6a4f, #95d5b2); border: 2px solid transparent; cursor: pointer;" title="Forest"></button>
+                            <button class="theme-swatch" data-theme="berry" style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #7b2cbf, #e040fb); border: 2px solid transparent; cursor: pointer;" title="Berry"></button>
+                            <button class="theme-swatch" data-theme="midnight" style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #3a0ca3, #4361ee); border: 2px solid transparent; cursor: pointer;" title="Midnight"></button>
+                            <button class="theme-swatch" data-theme="aurora" style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #06d6a0, #118ab2); border: 2px solid transparent; cursor: pointer;" title="Aurora"></button>
+                            <button class="theme-swatch" data-theme="rose" style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #ff006e, #ffbe0b); border: 2px solid transparent; cursor: pointer;" title="Rose"></button>
+                            <button class="theme-swatch" data-theme="neon" style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #00f5d4, #7209b7); border: 2px solid transparent; cursor: pointer;" title="Neon"></button>
+                        </div>
+                        <div class="px-2 py-1 mb-2 mt-3" style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600;">ANIMATION</div>
+                        <div class="px-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="colorCycleToggle">
+                                <label class="form-check-label" for="colorCycleToggle" style="font-size: 0.85rem;">Rainbow Cycle</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="theme-toggle btn-icon" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme (Ctrl+T)">
+                    <i class="fas fa-moon" id="theme-icon"></i>
+                </button>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="d-none d-lg-block ms-2" style="font-size: 0.7rem; color: var(--text-secondary);">
+                    <kbd class="px-1 py-0 rounded" style="background: var(--bg-light); border: 1px solid var(--border-color);">Ctrl+G</kbd> Generate
+                </div>
+            </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
     <div class="container-fluid px-4 py-4">
-        <!-- Tab Navigation -->
-        <ul class="nav nav-pills justify-content-center mb-4" id="graphTabs" role="tablist">
+        <ul class="nav nav-pills justify-content-center mb-4 flex-wrap" id="graphTabs" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="timeseries-tab" data-bs-toggle="pill" data-bs-target="#timeseries" type="button" role="tab">
                     <i class="fas fa-chart-line me-2"></i>Time Series
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="multi-emotion-tab" data-bs-toggle="pill" data-bs-target="#multi-emotion" type="button" role="tab">
+                    <i class="fas fa-layer-group me-2"></i>Multi-Emotion
                 </button>
             </li>
             <li class="nav-item" role="presentation">
@@ -152,7 +1462,7 @@
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="correlation-tab" data-bs-toggle="pill" data-bs-target="#correlation" type="button" role="tab">
-                    <i class="fas fa-th me-2"></i>Correlation Matrix
+                    <i class="fas fa-th me-2"></i>Correlation
                 </button>
             </li>
             <li class="nav-item" role="presentation">
@@ -160,15 +1470,43 @@
                     <i class="fas fa-copy me-2"></i>Mirror Hypothesis
                 </button>
             </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="heatmap-tab" data-bs-toggle="pill" data-bs-target="#heatmap" type="button" role="tab">
+                    <i class="fas fa-fire me-2"></i>Heatmap
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="distribution-tab" data-bs-toggle="pill" data-bs-target="#distribution" type="button" role="tab">
+                    <i class="fas fa-chart-bar me-2"></i>Distribution
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="period-tab" data-bs-toggle="pill" data-bs-target="#period" type="button" role="tab">
+                    <i class="fas fa-history me-2"></i>Literary Period
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="cross-corr-tab" data-bs-toggle="pill" data-bs-target="#cross-corr" type="button" role="tab">
+                    <i class="fas fa-exchange-alt me-2"></i>Cross-Correlation
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="compare-tab" data-bs-toggle="pill" data-bs-target="#compare" type="button" role="tab">
+                    <i class="fas fa-columns me-2"></i>Compare
+                </button>
+            </li>
         </ul>
 
-        <!-- Tab Content -->
         <div class="tab-content" id="graphTabsContent">
             <!-- Time Series Tab -->
             <div class="tab-pane fade show active" id="timeseries" role="tabpanel">
                 <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <span><i class="fas fa-chart-line me-2"></i>Time Series with Rolling Average</span>
+                    <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <div>
+                            <span><i class="fas fa-chart-line me-2"></i>Time Series with Rolling Average</span>
+                            <i class="fas fa-question-circle tooltip-icon" data-bs-toggle="tooltip" 
+                               title="Shows emotion intensity over time with a 3-decade rolling average smoothing"></i>
+                        </div>
                         <div id="ts-legend">
                             <span class="color-legend color-english"></span>English
                             <span class="color-legend color-hindi"></span>Hindi
@@ -176,16 +1514,47 @@
                         </div>
                     </div>
                     <div class="card-body">
+                        <div class="customize-panel">
+                            <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#ts-customize">
+                                <i class="fas fa-cog me-1"></i> Customize
+                            </button>
+                            <div class="collapse mt-2" id="ts-customize">
+                                <div class="row g-3">
+                                    <div class="col-md-3">
+                                        <label class="form-label">Decade Range</label>
+                                        <div class="d-flex gap-2">
+                                            <select class="form-select form-select-sm" id="ts-decade-start">
+                                                {% for decade in decades %}
+                                                <option value="{{ decade }}" {% if decade == 1810 %}selected{% endif %}>{{ decade }}s</option>
+                                                {% endfor %}
+                                            </select>
+                                            <span class="align-self-center">to</span>
+                                            <select class="form-select form-select-sm" id="ts-decade-end">
+                                                {% for decade in decades %}
+                                                <option value="{{ decade }}" {% if decade == 1960 %}selected{% endif %}>{{ decade }}s</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-check mt-4">
+                                            <input class="form-check-input" type="checkbox" id="ts-trendline">
+                                            <label class="form-check-label" for="ts-trendline">Show Trendline</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row g-3 mb-4">
-                            <div class="col-md-3">
-                                <label class="form-label">Target Emotion</label>
+                            <div class="col-md-2">
+                                <label class="form-label">Emotion <i class="fas fa-question-circle tooltip-icon" data-bs-toggle="tooltip" title="Select the emotion to analyze"></i></label>
                                 <select class="form-select" id="ts-emotion">
                                     {% for emotion in emotions %}
                                     <option value="{{ emotion }}">{{ emotion }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label class="form-label">Language</label>
                                 <select class="form-select" id="ts-language">
                                     <option value="All">All Languages</option>
@@ -199,9 +1568,95 @@
                                     <i class="fas fa-sync-alt me-2"></i>Generate
                                 </button>
                             </div>
+                            <div class="col-md-5 d-flex align-items-end justify-content-end gap-2">
+                                <button class="btn btn-outline-secondary btn-sm" onclick="exportData('timeseries')" title="Export Data as CSV">
+                                    <i class="fas fa-download me-1"></i>CSV
+                                </button>
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                        <i class="fas fa-download me-1"></i> Download
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#" onclick="downloadGraph('png')">PNG</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="downloadGraph('svg')">SVG</a></li>
+                                    </ul>
+                                </div>
+                                <button class="btn btn-outline-secondary btn-sm" onclick="shareGraph()" title="Share">
+                                    <i class="fas fa-share-alt"></i>
+                                </button>
+                            </div>
                         </div>
                         <div class="graph-container" id="timeseries-graph">
                             <span class="placeholder-text">Select emotion & language, then click Generate</span>
+                        </div>
+                        <div class="info-card" id="timeseries-info">
+                            <div class="placeholder-text">
+                                <i class="bi bi-graph-up"></i> Generate a graph to see insights
+                            </div>
+                        </div>
+                        <div class="stats-panel" id="ts-stats" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Multi-Emotion Tab -->
+            <div class="tab-pane fade" id="multi-emotion" role="tabpanel">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <span><i class="fas fa-layer-group me-2"></i>Multi-Emotion Comparison</span>
+                            <i class="fas fa-question-circle tooltip-icon" data-bs-toggle="tooltip" 
+                               title="Compare multiple emotions on the same timeline"></i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-4">
+                                <label class="form-label">Select Emotions (hold Ctrl/Cmd to select multiple)</label>
+                                <select class="form-select" id="me-emotions" multiple size="4">
+                                    {% for emotion in emotions %}
+                                    <option value="{{ emotion }}" {% if emotion == 'Joy' %}selected{% endif %}>{{ emotion }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">Language</label>
+                                <select class="form-select" id="me-language">
+                                    <option value="All">All Languages</option>
+                                    <option value="English">English</option>
+                                    <option value="Hindi">Hindi</option>
+                                    <option value="Tamil">Tamil</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">Decade Start</label>
+                                <select class="form-select" id="me-decade-start">
+                                    {% for decade in decades %}
+                                    <option value="{{ decade }}" {% if decade == 1810 %}selected{% endif %}>{{ decade }}s</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">Decade End</label>
+                                <select class="form-select" id="me-decade-end">
+                                    {% for decade in decades %}
+                                    <option value="{{ decade }}" {% if decade == 1960 %}selected{% endif %}>{{ decade }}s</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button class="btn btn-primary btn-generate w-100" onclick="generateGraph('multi_emotion', 'multi-emotion-graph')">
+                                    <i class="fas fa-sync-alt me-2"></i>Generate
+                                </button>
+                            </div>
+                        </div>
+                        <div class="graph-container" id="multi-emotion-graph">
+                            <span class="placeholder-text">Select emotions and click Generate</span>
+                        </div>
+                        <div class="info-card" id="multi-emotion-info">
+                            <div class="placeholder-text">
+                                <i class="bi bi-graph-up"></i> Generate a graph to see insights
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -211,7 +1666,11 @@
             <div class="tab-pane fade" id="radar" role="tabpanel">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <span><i class="fas fa-bullseye me-2"></i>Radar Chart</span>
+                        <div>
+                            <span><i class="fas fa-bullseye me-2"></i>Radar Chart</span>
+                            <i class="fas fa-question-circle tooltip-icon" data-bs-toggle="tooltip" 
+                               title="Shows relative emotional composition as percentages"></i>
+                        </div>
                         <div id="radar-legend">
                             <span class="color-legend color-english"></span>English
                             <span class="color-legend color-hindi"></span>Hindi
@@ -242,9 +1701,19 @@
                                     <i class="fas fa-sync-alt me-2"></i>Generate
                                 </button>
                             </div>
+                            <div class="col-md-3 d-flex align-items-end justify-content-end gap-2">
+                                <button class="btn btn-outline-secondary btn-sm" onclick="exportData('radar')">
+                                    <i class="fas fa-download me-1"></i>CSV
+                                </button>
+                            </div>
                         </div>
                         <div class="graph-container" id="radar-graph">
                             <span class="placeholder-text">Select decade & language, then click Generate</span>
+                        </div>
+                        <div class="info-card" id="radar-info">
+                            <div class="placeholder-text">
+                                <i class="bi bi-graph-up"></i> Generate a graph to see insights
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -255,6 +1724,8 @@
                 <div class="card">
                     <div class="card-header">
                         <span><i class="fas fa-th me-2"></i>Emotion Correlation Matrix</span>
+                        <i class="fas fa-question-circle tooltip-icon" data-bs-toggle="tooltip" 
+                           title="Shows Pearson correlation between all emotion pairs"></i>
                     </div>
                     <div class="card-body">
                         <div class="row g-3 mb-4">
@@ -275,6 +1746,11 @@
                         <div class="graph-container" id="correlation-graph">
                             <span class="placeholder-text">Select language and click Generate</span>
                         </div>
+                        <div class="info-card" id="correlation-info">
+                            <div class="placeholder-text">
+                                <i class="bi bi-graph-up"></i> Generate a graph to see insights
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -284,18 +1760,20 @@
                 <div class="card">
                     <div class="card-header">
                         <span><i class="fas fa-copy me-2"></i>Mirror Hypothesis - Literature vs Historical Events</span>
+                        <i class="fas fa-question-circle tooltip-icon" data-bs-toggle="tooltip" 
+                           title="Compare emotional content in literature with historical event emotional signatures"></i>
                     </div>
                     <div class="card-body">
                         <div class="row g-3 mb-4">
-                            <div class="col-md-3">
-                                <label class="form-label">Target Emotion</label>
+                            <div class="col-md-2">
+                                <label class="form-label">Emotion</label>
                                 <select class="form-select" id="mirror-emotion">
                                     {% for emotion in emotions %}
                                     <option value="{{ emotion }}">{{ emotion }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label class="form-label">Language</label>
                                 <select class="form-select" id="mirror-language">
                                     <option value="English">English</option>
@@ -303,14 +1781,326 @@
                                     <option value="Tamil">Tamil</option>
                                 </select>
                             </div>
-                            <div class="col-md-3 d-flex align-items-end">
+                            <div class="col-md-2">
+                                <label class="form-label">Start Decade</label>
+                                <select class="form-select" id="mirror-decade-start">
+                                    {% for decade in decades %}
+                                    <option value="{{ decade }}" {% if decade == 1810 %}selected{% endif %}>{{ decade }}s</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">End Decade</label>
+                                <select class="form-select" id="mirror-decade-end">
+                                    {% for decade in decades %}
+                                    <option value="{{ decade }}" {% if decade == 1960 %}selected{% endif %}>{{ decade }}s</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
                                 <button class="btn btn-primary btn-generate w-100" onclick="generateGraph('mirror')">
                                     <i class="fas fa-sync-alt me-2"></i>Generate
+                                </button>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end justify-content-end gap-2">
+                                <button class="btn btn-outline-secondary btn-sm" onclick="exportData('mirror')">
+                                    <i class="fas fa-download me-1"></i>CSV
                                 </button>
                             </div>
                         </div>
                         <div class="graph-container" id="mirror-graph">
                             <span class="placeholder-text">Select emotion and click Generate</span>
+                        </div>
+                        <div class="info-card" id="mirror-info">
+                            <div class="placeholder-text">
+                                <i class="bi bi-graph-up"></i> Generate a graph to see insights
+                            </div>
+                        </div>
+                        <div class="stats-panel" id="mirror-stats" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Heatmap Tab -->
+            <div class="tab-pane fade" id="heatmap" role="tabpanel">
+                <div class="card">
+                    <div class="card-header">
+                        <span><i class="fas fa-fire me-2"></i>Emotion Heatmap Timeline</span>
+                        <i class="fas fa-question-circle tooltip-icon" data-bs-toggle="tooltip" 
+                           title="Visualize all emotions across decades as a color-coded heatmap"></i>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-2">
+                                <label class="form-label">Language</label>
+                                <select class="form-select" id="heatmap-language">
+                                    <option value="All">All Languages</option>
+                                    <option value="English">English</option>
+                                    <option value="Hindi">Hindi</option>
+                                    <option value="Tamil">Tamil</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">Start Decade</label>
+                                <select class="form-select" id="heatmap-decade-start">
+                                    {% for decade in decades %}
+                                    <option value="{{ decade }}" {% if decade == 1810 %}selected{% endif %}>{{ decade }}s</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">End Decade</label>
+                                <select class="form-select" id="heatmap-decade-end">
+                                    {% for decade in decades %}
+                                    <option value="{{ decade }}" {% if decade == 1960 %}selected{% endif %}>{{ decade }}s</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button class="btn btn-primary btn-generate w-100" onclick="generateGraph('heatmap')">
+                                    <i class="fas fa-sync-alt me-2"></i>Generate
+                                </button>
+                            </div>
+                            <div class="col-md-4 d-flex align-items-end justify-content-end gap-2">
+                                <button class="btn btn-outline-secondary btn-sm" onclick="exportData('heatmap')">
+                                    <i class="fas fa-download me-1"></i>CSV
+                                </button>
+                            </div>
+                        </div>
+                        <div class="graph-container" id="heatmap-graph">
+                            <span class="placeholder-text">Select options and click Generate</span>
+                        </div>
+                        <div class="info-card" id="heatmap-info">
+                            <div class="placeholder-text">
+                                <i class="bi bi-graph-up"></i> Generate a graph to see insights
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Distribution Tab -->
+            <div class="tab-pane fade" id="distribution" role="tabpanel">
+                <div class="card">
+                    <div class="card-header">
+                        <span><i class="fas fa-chart-bar me-2"></i>Emotion Distribution</span>
+                        <i class="fas fa-question-circle tooltip-icon" data-bs-toggle="tooltip" 
+                               title="Show statistical distribution of emotions as violin/box plots"></i>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-2">
+                                <label class="form-label">Language</label>
+                                <select class="form-select" id="dist-language">
+                                    <option value="All">All Languages</option>
+                                    <option value="English">English</option>
+                                    <option value="Hindi">Hindi</option>
+                                    <option value="Tamil">Tamil</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">Start Decade</label>
+                                <select class="form-select" id="dist-decade-start">
+                                    {% for decade in decades %}
+                                    <option value="{{ decade }}" {% if decade == 1810 %}selected{% endif %}>{{ decade }}s</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">End Decade</label>
+                                <select class="form-select" id="dist-decade-end">
+                                    {% for decade in decades %}
+                                    <option value="{{ decade }}" {% if decade == 1960 %}selected{% endif %}>{{ decade }}s</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button class="btn btn-primary btn-generate w-100" onclick="generateGraph('distribution')">
+                                    <i class="fas fa-sync-alt me-2"></i>Generate
+                                </button>
+                            </div>
+                        </div>
+                        <div class="graph-container" id="distribution-graph">
+                            <span class="placeholder-text">Select options and click Generate</span>
+                        </div>
+                        <div class="info-card" id="distribution-info">
+                            <div class="placeholder-text">
+                                <i class="bi bi-graph-up"></i> Generate a graph to see insights
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Literary Period Tab -->
+            <div class="tab-pane fade" id="period" role="tabpanel">
+                <div class="card">
+                    <div class="card-header">
+                        <span><i class="fas fa-history me-2"></i>Literary Period Comparison</span>
+                        <i class="fas fa-question-circle tooltip-icon" data-bs-toggle="tooltip" 
+                               title="Compare emotions across predefined literary periods"></i>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-4">
+                                <label class="form-label">Literary Period</label>
+                                <select class="form-select" id="period-select">
+                                    {% for period, years in literary_periods.items() %}
+                                    <option value="{{ period }}">{{ period }} ({{ years[0] }}-{{ years[1] }})</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-4 d-flex align-items-end">
+                                <button class="btn btn-primary btn-generate w-100" onclick="generateGraph('literary_period', 'period-graph')">
+                                    <i class="fas fa-sync-alt me-2"></i>Generate
+                                </button>
+                            </div>
+                        </div>
+                        <div class="graph-container" id="period-graph">
+                            <span class="placeholder-text">Select period and click Generate</span>
+                        </div>
+                        <div class="info-card" id="period-info">
+                            <div class="placeholder-text">
+                                <i class="bi bi-graph-up"></i> Generate a graph to see insights
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cross-Correlation Tab -->
+            <div class="tab-pane fade" id="cross-corr" role="tabpanel">
+                <div class="card">
+                    <div class="card-header">
+                        <span><i class="fas fa-exchange-alt me-2"></i>Cross-Correlation Analysis</span>
+                        <i class="fas fa-question-circle tooltip-icon" data-bs-toggle="tooltip" 
+                               title="Analyze how two emotions correlate over time with different lags"></i>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-2">
+                                <label class="form-label">Emotion 1</label>
+                                <select class="form-select" id="cc-emotion1">
+                                    {% for emotion in emotions %}
+                                    <option value="{{ emotion }}" {% if emotion == 'Joy' %}selected{% endif %}>{{ emotion }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">Emotion 2</label>
+                                <select class="form-select" id="cc-emotion2">
+                                    {% for emotion in emotions %}
+                                    <option value="{{ emotion }}" {% if emotion == 'Sadness' %}selected{% endif %}>{{ emotion }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">Language</label>
+                                <select class="form-select" id="cc-language">
+                                    <option value="English">English</option>
+                                    <option value="Hindi">Hindi</option>
+                                    <option value="Tamil">Tamil</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button class="btn btn-primary btn-generate w-100" onclick="generateGraph('cross_correlation', 'cross-corr-graph')">
+                                    <i class="fas fa-sync-alt me-2"></i>Generate
+                                </button>
+                            </div>
+                        </div>
+                        <div class="graph-container" id="cross-corr-graph">
+                            <span class="placeholder-text">Select emotions and click Generate</span>
+                        </div>
+                        <div class="info-card" id="cross-corr-info">
+                            <div class="placeholder-text">
+                                <i class="bi bi-graph-up"></i> Generate a graph to see insights
+                            </div>
+                        </div>
+                        <div class="stats-panel" id="cross-corr-stats" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Compare Tab -->
+            <div class="tab-pane fade" id="compare" role="tabpanel">
+                <div class="card">
+                    <div class="card-header">
+                        <span><i class="fas fa-columns me-2"></i>Side-by-Side Comparison</span>
+                        <i class="fas fa-question-circle tooltip-icon" data-bs-toggle="tooltip" 
+                               title="Compare two different configurations side by side"></i>
+                    </div>
+                    <div class="card-body">
+                        <div class="comparison-container">
+                            <div class="card border">
+                                <div class="card-header">Configuration 1</div>
+                                <div class="card-body">
+                                    <div class="row g-2 mb-3">
+                                        <div class="col-12">
+                                            <label class="form-label">Graph Type</label>
+                                            <select class="form-select form-select-sm" id="compare1-type">
+                                                <option value="timeseries">Time Series</option>
+                                                <option value="radar">Radar</option>
+                                                <option value="heatmap">Heatmap</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="form-label">Emotion</label>
+                                            <select class="form-select form-select-sm" id="compare1-emotion">
+                                                {% for emotion in emotions %}
+                                                <option value="{{ emotion }}">{{ emotion }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="form-label">Language</label>
+                                            <select class="form-select form-select-sm" id="compare1-language">
+                                                <option value="English">English</option>
+                                                <option value="Hindi">Hindi</option>
+                                                <option value="Tamil">Tamil</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-sm btn-primary" onclick="generateCompareGraph(1)">Generate</button>
+                                    <div class="graph-container mt-2" id="compare1-graph" style="min-height: 250px;">
+                                        <span class="placeholder-text">Graph 1</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card border">
+                                <div class="card-header">Configuration 2</div>
+                                <div class="card-body">
+                                    <div class="row g-2 mb-3">
+                                        <div class="col-12">
+                                            <label class="form-label">Graph Type</label>
+                                            <select class="form-select form-select-sm" id="compare2-type">
+                                                <option value="timeseries">Time Series</option>
+                                                <option value="radar">Radar</option>
+                                                <option value="heatmap">Heatmap</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="form-label">Emotion</label>
+                                            <select class="form-select form-select-sm" id="compare2-emotion">
+                                                {% for emotion in emotions %}
+                                                <option value="{{ emotion }}" {% if emotion == 'Sadness' %}selected{% endif %}>{{ emotion }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="form-label">Language</label>
+                                            <select class="form-select form-select-sm" id="compare2-language">
+                                                <option value="Hindi">Hindi</option>
+                                                <option value="English">English</option>
+                                                <option value="Tamil">Tamil</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-sm btn-primary" onclick="generateCompareGraph(2)">Generate</button>
+                                    <div class="graph-container mt-2" id="compare2-graph" style="min-height: 250px;">
+                                        <span class="placeholder-text">Graph 2</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -318,19 +2108,333 @@
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="footer text-center">
-        <div class="container">
+    <footer class="footer text-center glass mt-4">
+        <div class="container py-3">
             <span class="text-muted">
+                <i class="fas fa-chart-line me-2" style="color: var(--primary);"></i>
                 Cross-Cultural Emotions Analysis Dashboard | IEEE Publication-Ready Visualizations
             </span>
         </div>
     </footer>
 
-    <!-- Scripts -->
+    <!-- Share Modal -->
+    <div class="modal fade" id="shareModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Share Graph</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Copy this link to share:</p>
+                    <input type="text" class="form-control" id="shareLink" readonly>
+                    <div class="mt-3">
+                        <p>Embed code:</p>
+                        <textarea class="embed-code" id="embedCode" rows="3" readonly></textarea>
+                    </div>
+                    <div class="share-buttons">
+                        <button class="btn-share" onclick="copyShareLink()">
+                            <i class="fas fa-copy"></i> Copy Link
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <script>
-        // Update legend visibility based on language selection
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+
+        // Toast notifications
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast show mb-2`;
+            toast.setAttribute('role', 'alert');
+            toast.setAttribute('aria-live', 'assertive');
+            toast.setAttribute('aria-atomic', 'true');
+            
+            const icons = {
+                success: 'fa-check-circle text-success',
+                error: 'fa-exclamation-circle text-danger',
+                info: 'fa-info-circle text-info',
+                warning: 'fa-exclamation-triangle text-warning'
+            };
+            
+            toast.innerHTML = `
+                <div class="toast-header">
+                    <i class="fas ${icons[type]} me-2"></i>
+                    <strong class="me-auto">${type === 'success' ? 'Success' : type === 'error' ? 'Error' : type === 'info' ? 'Info' : 'Warning'}</strong>
+                    <button type="button" class="btn-close" onclick="this.closest('.toast').remove()"></button>
+                </div>
+                <div class="toast-body">${message}</div>
+            `;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 5000);
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + G: Generate graph
+            if ((e.ctrlKey || e.metaKey) && e.key === 'g') {
+                e.preventDefault();
+                const activeTab = document.querySelector('.tab-pane.active');
+                if (activeTab) {
+                    const generateBtn = activeTab.querySelector('.btn-generate');
+                    if (generateBtn) {
+                        generateBtn.click();
+                        showToast('Generating graph...', 'info');
+                    }
+                }
+            }
+            
+            // Ctrl/Cmd + T: Toggle theme
+            if ((e.ctrlKey || e.metaKey) && e.key === 't') {
+                e.preventDefault();
+                toggleTheme();
+                const theme = document.documentElement.getAttribute('data-theme');
+                showToast(`Switched to ${theme} mode`, 'success');
+            }
+            
+            // Escape: Close modals
+            if (e.key === 'Escape') {
+                const openModal = document.querySelector('.modal.show');
+                if (openModal) {
+                    bootstrap.Modal.getInstance(openModal)?.hide();
+                }
+            }
+            
+            // Ctrl/Cmd + S: Share graph
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                e.preventDefault();
+                if (currentGraphType) {
+                    shareGraph();
+                } else {
+                    showToast('Generate a graph first to share', 'warning');
+                }
+            }
+        });
+
+        // Graph cache
+        const graphCache = {};
+        let currentGraphUrl = '';
+        let currentGraphType = '';
+
+        // Debounce function for auto-generate
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Auto-generate on control change (with debounce)
+        const autoGenerate = debounce(() => {
+            const activeTab = document.querySelector('.tab-pane.active');
+            if (activeTab) {
+                const generateBtn = activeTab.querySelector('.btn-generate');
+                if (generateBtn) {
+                    const tabId = activeTab.id;
+                    const typeMap = {
+                        'timeseries': 'timeseries',
+                        'multi-emotion': 'multi_emotion',
+                        'radar': 'radar',
+                        'correlation': 'correlation',
+                        'mirror': 'mirror',
+                        'heatmap': 'heatmap',
+                        'distribution': 'distribution',
+                        'period': 'literary_period',
+                        'cross-corr': 'cross_correlation'
+                    };
+                    if (typeMap[tabId]) {
+                        showToast('Auto-generating...', 'info');
+                        generateGraph(typeMap[tabId]);
+                    }
+                }
+            }
+        }, 1500);
+
+        // Add auto-generate listeners to Time Series controls
+        document.getElementById('ts-emotion')?.addEventListener('change', function() {
+            autoGenerate();
+            updateEmotionColors(this.value);
+        });
+        document.getElementById('ts-language')?.addEventListener('change', autoGenerate);
+        document.getElementById('ts-decade-start')?.addEventListener('change', autoGenerate);
+        document.getElementById('ts-decade-end')?.addEventListener('change', autoGenerate);
+        document.getElementById('ts-trendline')?.addEventListener('change', autoGenerate);
+
+        // Emotion-based dynamic colors
+        const emotionColors = {
+            'Joy': { primary: '#ffd60a', secondary: '#ffbe0b', accent: '#ff006e', emoji: '☀️' },
+            'Sadness': { primary: '#4361ee', secondary: '#3a0ca3', accent: '#4895ef', emoji: '🌧️' },
+            'Anger': { primary: '#e63946', secondary: '#d00000', accent: '#ff6b6b', emoji: '🔥' },
+            'Fear': { primary: '#7b2cbf', secondary: '#5a189a', accent: '#9d4edd', emoji: '😱' },
+            'Love': { primary: '#ff006e', secondary: '#d90429', accent: '#ef476f', emoji: '❤️' },
+            'Surprise': { primary: '#06d6a0', secondary: '#118ab2', accent: '#4cc9f0', emoji: '🎉' },
+            'Disgust': { primary: '#606c38', secondary: '#283618', accent: '#a3b18a', emoji: '🤢' },
+            'Contempt': { primary: '#6c757d', secondary: '#495057', accent: '#adb5bd', emoji: '😒' },
+            'Gratitude': { primary: '#20bf6b', secondary: '#1e8449', accent: '#52b788', emoji: '🙏' },
+            'Frustration': { primary: '#f39c12', secondary: '#d35400', accent: '#f5b041', emoji: '😤' },
+            'Neutral': { primary: '#a0a0a0', secondary: '#6c757d', accent: '#ced4da', emoji: '😐' }
+        };
+
+        function updateEmotionColors(emotion) {
+            const colors = emotionColors[emotion] || emotionColors['Neutral'];
+            const html = document.documentElement;
+            
+            // Temporarily change primary for this tab
+            html.style.setProperty('--emotion-primary', colors.primary);
+            html.style.setProperty('--emotion-secondary', colors.secondary);
+            html.style.setProperty('--emotion-accent', colors.accent);
+            
+            // Add a flash effect to show color change
+            const graphContainer = document.getElementById('timeseries-graph');
+            if (graphContainer) {
+                graphContainer.style.boxShadow = `0 0 30px ${colors.primary}40`;
+                setTimeout(() => {
+                    graphContainer.style.boxShadow = '';
+                }, 1000);
+            }
+        }
+
+        // Initialize emotion colors
+        updateEmotionColors(document.getElementById('ts-emotion')?.value || 'Joy');
+
+        // Theme management
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+            
+            const icon = document.getElementById('theme-icon');
+            icon.className = newTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+            
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Color themes configuration
+        const colorThemes = {
+            ocean: {
+                primary: '#0077b6', primaryLight: '#00b4d8', primaryDark: '#023e8a',
+                secondary: '#00b4d8', tertiary: '#48dbfb',
+                accentPurple: '#7b2cbf', accentPink: '#ff006e', accentOrange: '#f4a261', accentTeal: '#2a9d8f'
+            },
+            sunset: {
+                primary: '#ff6b6b', primaryLight: '#feca57', primaryDark: '#ee5a24',
+                secondary: '#feca57', tertiary: '#ff9f43',
+                accentPurple: '#a55eea', accentPink: '#ff6b6b', accentOrange: '#feca57', accentTeal: '#20bf6b'
+            },
+            forest: {
+                primary: '#2d6a4f', primaryLight: '#95d5b2', primaryDark: '#1b4332',
+                secondary: '#40916c', tertiary: '#52b788',
+                accentPurple: '#7400b8', accentPink: '#e63946', accentOrange: '#f4a261', accentTeal: '#06d6a0'
+            },
+            berry: {
+                primary: '#7b2cbf', primaryLight: '#e040fb', primaryDark: '#5a189a',
+                secondary: '#9d4edd', tertiary: '#c77dff',
+                accentPurple: '#e040fb', accentPink: '#ff006e', accentOrange: '#ffbe0b', accentTeal: '#00b4d8'
+            },
+            midnight: {
+                primary: '#3a0ca3', primaryLight: '#4361ee', primaryDark: '#1a1a2e',
+                secondary: '#4361ee', tertiary: '#4cc9f0',
+                accentPurple: '#7209b7', accentPink: '#f72585', accentOrange: '#ffd60a', accentTeal: '#00f5d4'
+            },
+            aurora: {
+                primary: '#06d6a0', primaryLight: '#118ab2', primaryDark: '#073b4c',
+                secondary: '#118ab2', tertiary: '#4cc9f0',
+                accentPurple: '#7b2cbf', accentPink: '#ef476f', accentOrange: '#ffd166', accentTeal: '#06d6a0'
+            },
+            rose: {
+                primary: '#ff006e', primaryLight: '#ffbe0b', primaryDark: '#8338ec',
+                secondary: '#ffbe0b', tertiary: '#fb5607',
+                accentPurple: '#8338ec', accentPink: '#ff006e', accentOrange: '#ffbe0b', accentTeal: '#3a86ff'
+            },
+            neon: {
+                primary: '#00f5d4', primaryLight: '#7209b7', primaryDark: '#3a0ca3',
+                secondary: '#7209b7', tertiary: '#f72585',
+                accentPurple: '#b5179e', accentPink: '#f72585', accentOrange: '#ffbe0b', accentTeal: '#00f5d4'
+            }
+        };
+
+        // Apply color theme
+        function applyColorTheme(themeName) {
+            const theme = colorThemes[themeName];
+            if (!theme) return;
+            
+            const html = document.documentElement;
+            Object.keys(theme).forEach(key => {
+                html.style.setProperty(`--${key}`, theme[key]);
+            });
+            
+            // Update active swatch
+            document.querySelectorAll('.theme-swatch').forEach(swatch => {
+                swatch.classList.remove('active');
+                if (swatch.dataset.theme === themeName) {
+                    swatch.classList.add('active');
+                }
+            });
+            
+            localStorage.setItem('colorTheme', themeName);
+            showToast(`Color theme: ${themeName}`, 'success');
+        }
+
+        // Toggle color cycling
+        function toggleColorCycle(enabled) {
+            const html = document.documentElement;
+            if (enabled) {
+                html.classList.add('color-cycle-active');
+                localStorage.setItem('colorCycle', 'true');
+            } else {
+                html.classList.remove('color-cycle-active');
+                localStorage.setItem('colorCycle', 'false');
+            }
+        }
+
+        // Initialize theme swatches
+        document.querySelectorAll('.theme-swatch').forEach(swatch => {
+            swatch.addEventListener('click', function() {
+                applyColorTheme(this.dataset.theme);
+            });
+        });
+
+        // Color cycle toggle
+        document.getElementById('colorCycleToggle').addEventListener('change', function() {
+            toggleColorCycle(this.checked);
+        });
+
+        // Load saved preferences
+        const savedColorTheme = localStorage.getItem('colorTheme') || 'ocean';
+        applyColorTheme(savedColorTheme);
+        
+        const savedColorCycle = localStorage.getItem('colorCycle') === 'true';
+        document.getElementById('colorCycleToggle').checked = savedColorCycle;
+        if (savedColorCycle) {
+            document.documentElement.classList.add('color-cycle-active');
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.getElementById('theme-icon').className = savedTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+
+        // Legend update functions
         document.getElementById('ts-language').addEventListener('change', function() {
             const legend = document.getElementById('ts-legend');
             if (this.value === 'All') {
@@ -353,40 +2457,59 @@
             }
         });
 
-        async function generateGraph(graphType) {
-            let container, data = {};
-            
-            if (graphType === 'timeseries') {
-                container = document.getElementById('timeseries-graph');
-                data = {
-                    type: 'timeseries',
-                    emotion: document.getElementById('ts-emotion').value,
-                    language: document.getElementById('ts-language').value
-                };
-            } else if (graphType === 'radar') {
-                container = document.getElementById('radar-graph');
-                data = {
-                    type: 'radar',
-                    decade: document.getElementById('radar-decade').value,
-                    language: document.getElementById('radar-language').value
-                };
-            } else if (graphType === 'correlation') {
-                container = document.getElementById('correlation-graph');
-                data = {
-                    type: 'correlation',
-                    language: document.getElementById('corr-language').value
-                };
-            } else if (graphType === 'mirror') {
-                container = document.getElementById('mirror-graph');
-                data = {
-                    type: 'mirror',
-                    emotion: document.getElementById('mirror-emotion').value,
-                    language: document.getElementById('mirror-language').value
-                };
+        // URL parameter handling
+        function updateURL(params) {
+            const url = new URL(window.location);
+            for (const [key, value] of Object.entries(params)) {
+                url.searchParams.set(key, value);
+            }
+            history.pushState({}, '', url);
+        }
+
+        function loadFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const tab = params.get('tab');
+            if (tab) {
+                const triggerEl = document.querySelector(`#${tab}-tab`);
+                if (triggerEl) {
+                    triggerEl.click();
+                }
             }
             
-            // Show loading
-            container.innerHTML = '<div class="loading-spinner"></div>';
+            const emotion = params.get('emotion');
+            const language = params.get('language');
+            const decade = params.get('decade');
+            
+            if (emotion) {
+                document.getElementById('ts-emotion').value = emotion;
+            }
+            if (language) {
+                document.getElementById('ts-language').value = language;
+            }
+        }
+
+        // Graph generation with caching and loading states
+        async function generateGraph(graphType, containerId = null) {
+            if (!containerId) {
+                containerId = `${graphType}-graph`;
+            }
+            const container = document.getElementById(containerId);
+            
+            const cacheKey = `${graphType}_${JSON.stringify(getParamsForType(graphType))}`;
+            
+            if (graphCache[cacheKey]) {
+                // Render from cache using Plotly
+                const graphData = JSON.parse(graphCache[cacheKey]);
+                const layout = graphData.layout || {};
+                Plotly.newPlot(containerId, graphData.data, layout, {responsive: false, displayModeBar: true});
+                currentGraphType = graphType;
+                showToast('Loaded from cache', 'info');
+                return;
+            }
+
+            container.innerHTML = '<div class="skeleton"></div>';
+            
+            const data = getParamsForType(graphType);
             
             try {
                 const response = await fetch('/generate', {
@@ -398,7 +2521,150 @@
                 const result = await response.json();
                 
                 if (result.success) {
-                    container.innerHTML = `<img src="${result.graph_url}" alt="${graphType} graph" class="img-fluid">`;
+                    // Parse the JSON string and render with Plotly
+                    const graphData = JSON.parse(result.graph_data);
+
+                    // Clear container and render interactive Plotly chart
+                    container.innerHTML = '';
+                    const layout = graphData.layout || {};
+
+                    Plotly.newPlot(containerId, graphData.data, layout, {
+                        responsive: false,
+                        displayModeBar: true,
+                        toImageButtonOptions: {
+                            format: 'png',
+                            filename: `${graphType}_graph`,
+                            height: 600,
+                            width: 1000,
+                            scale: 2
+                        },
+                        modeBarButtonsToRemove: ['select2d', 'lasso2d']
+                    });
+                    
+                    // Store JSON string in cache
+                    graphCache[cacheKey] = result.graph_data;
+                    currentGraphType = graphType;
+                    
+                    updateURL({tab: graphType, ...data});
+                    
+                    showToast('Graph generated successfully!', 'success');
+                    
+                    // Run additional analysis if applicable
+                    if (graphType === 'timeseries') {
+                        runTimeSeriesAnalysis(data);
+                    } else if (graphType === 'cross_correlation') {
+                        runCrossCorrelationAnalysis(data);
+                    }
+
+                    // Fetch and display insights
+                    await fetchInsights(graphType, data);
+                } else {
+                    container.innerHTML = `<div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Error: ${result.error}
+                        <button class="btn btn-sm btn-outline-danger ms-2" onclick="generateGraph('${graphType}')">
+                            <i class="fas fa-redo"></i> Retry
+                        </button>
+                    </div>`;
+                    showToast('Error: ' + result.error, 'error');
+                }
+            } catch (error) {
+                container.innerHTML = `<div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Error: ${error.message}
+                    <button class="btn btn-sm btn-outline-danger ms-2" onclick="generateGraph('${graphType}')">
+                        <i class="fas fa-redo"></i> Retry
+                    </button>
+                </div>`;
+                showToast('Error: ' + error.message, 'error');
+            }
+        }
+
+        function getParamsForType(graphType) {
+            const params = { type: graphType };
+            
+            switch(graphType) {
+                case 'timeseries':
+                    params.emotion = document.getElementById('ts-emotion').value;
+                    params.language = document.getElementById('ts-language').value;
+                    params.decade_start = parseInt(document.getElementById('ts-decade-start').value);
+                    params.decade_end = parseInt(document.getElementById('ts-decade-end').value);
+                    params.show_trendline = document.getElementById('ts-trendline').checked;
+                    break;
+                case 'multi_emotion':
+                    const selectedEmotions = Array.from(document.getElementById('me-emotions').selectedOptions).map(opt => opt.value);
+                    params.emotions = selectedEmotions.length > 0 ? selectedEmotions : ['Joy'];
+                    params.language = document.getElementById('me-language').value;
+                    params.decade_start = parseInt(document.getElementById('me-decade-start').value);
+                    params.decade_end = parseInt(document.getElementById('me-decade-end').value);
+                    break;
+                case 'radar':
+                    params.decade = parseInt(document.getElementById('radar-decade').value);
+                    params.language = document.getElementById('radar-language').value;
+                    break;
+                case 'correlation':
+                    params.language = document.getElementById('corr-language').value;
+                    break;
+                case 'mirror':
+                    params.emotion = document.getElementById('mirror-emotion').value;
+                    params.language = document.getElementById('mirror-language').value;
+                    params.decade_start = parseInt(document.getElementById('mirror-decade-start').value);
+                    params.decade_end = parseInt(document.getElementById('mirror-decade-end').value);
+                    break;
+                case 'heatmap':
+                    params.language = document.getElementById('heatmap-language').value;
+                    params.decade_start = parseInt(document.getElementById('heatmap-decade-start').value);
+                    params.decade_end = parseInt(document.getElementById('heatmap-decade-end').value);
+                    break;
+                case 'distribution':
+                    params.language = document.getElementById('dist-language').value;
+                    params.decade_start = parseInt(document.getElementById('dist-decade-start').value);
+                    params.decade_end = parseInt(document.getElementById('dist-decade-end').value);
+                    break;
+                case 'literary_period':
+                    params.period = document.getElementById('period-select').value;
+                    break;
+                case 'cross_correlation':
+                    params.emotion1 = document.getElementById('cc-emotion1').value;
+                    params.emotion2 = document.getElementById('cc-emotion2').value;
+                    params.language = document.getElementById('cc-language').value;
+                    break;
+            }
+            
+            return params;
+        }
+
+        // Compare graph generation
+        async function generateCompareGraph(num) {
+            const graphType = document.getElementById(`compare${num}-type`).value;
+            const params = {
+                type: graphType,
+                emotion: document.getElementById(`compare${num}-emotion`).value,
+                language: document.getElementById(`compare${num}-language`).value
+            };
+            
+            const containerId = `compare${num}-graph`;
+            const container = document.getElementById(containerId);
+            container.innerHTML = '<div class="loading-spinner"></div>';
+            
+            try {
+                const response = await fetch('/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(params)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    const graphData = JSON.parse(result.graph_data);
+                    container.innerHTML = '';
+                    const layout = graphData.layout || {};
+
+                    Plotly.newPlot(containerId, graphData.data, layout, {
+                        responsive: false,
+                        displayModeBar: true
+                    });
                 } else {
                     container.innerHTML = `<span class="text-danger">Error: ${result.error}</span>`;
                 }
@@ -406,6 +2672,761 @@
                 container.innerHTML = `<span class="text-danger">Error: ${error.message}</span>`;
             }
         }
+
+        // Data export
+        async function exportData(graphType) {
+            const dataTypeMap = {
+                'timeseries': 'timeseries',
+                'radar': 'all_emotions',
+                'mirror': 'timeseries',
+                'heatmap': 'heatmap'
+            };
+            
+            const params = getParamsForType(graphType);
+            
+            try {
+                const response = await fetch('/api/data', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        data_type: dataTypeMap[graphType] || 'timeseries',
+                        emotion: params.emotion || 'Joy',
+                        language: params.language || 'All',
+                        decade_start: params.decade_start || 1810,
+                        decade_end: params.decade_end || 1960
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    downloadCSV(result.data, `${graphType}_data.csv`);
+                } else {
+                    alert('Error exporting data: ' + result.error);
+                }
+            } catch (error) {
+                alert('Error exporting data: ' + error.message);
+            }
+        }
+
+        function downloadCSV(data, filename) {
+            let csvContent = 'decade,language';
+            
+            if (typeof data === 'object') {
+                const firstLang = Object.keys(data)[0];
+                if (data[firstLang] && typeof data[firstLang] === 'object') {
+                    const firstDecade = Object.keys(data[firstLang])[0];
+                    if (data[firstLang][firstDecade] && typeof data[firstLang][firstDecade] === 'object') {
+                        const emotions = Object.keys(data[firstLang][firstDecade]);
+                        csvContent += ',' + emotions.join(',');
+                    }
+                }
+                csvContent += '\n';
+                
+                for (const lang of Object.keys(data)) {
+                    const langData = data[lang];
+                    for (const decade of Object.keys(langData)) {
+                        const row = [decade, lang];
+                        const decadeData = langData[decade];
+                        if (typeof decadeData === 'object') {
+                            row.push(...Object.values(decadeData));
+                        }
+                        csvContent += row.join(',') + '\n';
+                    }
+                }
+            }
+            
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Download graph
+        function downloadGraph(format) {
+            const img = document.getElementById('current-graph-img');
+            if (!img) {
+                alert('No graph to download. Please generate a graph first.');
+                return;
+            }
+            
+            if (format === 'svg') {
+                alert('SVG download requires backend support. Using PNG instead.');
+            }
+            
+            const a = document.createElement('a');
+            a.href = img.src;
+            a.download = `emotion_graph_${Date.now()}.png`;
+            a.click();
+        }
+
+        // Share functionality
+        function shareGraph() {
+            const params = getParamsForType(currentGraphType);
+            const shareUrl = `${window.location.origin}?${new URLSearchParams(params).toString()}`;
+            
+            document.getElementById('shareLink').value = shareUrl;
+            document.getElementById('embedCode').value = `<iframe src="${shareUrl}" width="800" height="600"></iframe>`;
+            
+            new bootstrap.Modal(document.getElementById('shareModal')).show();
+        }
+
+        function copyShareLink() {
+            const input = document.getElementById('shareLink');
+            input.select();
+            document.execCommand('copy');
+            showToast('Link copied to clipboard!', 'success');
+        }
+
+        // Statistical analysis functions
+        async function runTimeSeriesAnalysis(params) {
+            try {
+                const [trendRes, peaksRes] = await Promise.all([
+                    fetch('/api/statistics', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            analysis_type: 'trend',
+                            emotion: params.emotion,
+                            language: params.language === 'All' ? 'English' : params.language,
+                            decade_start: params.decade_start,
+                            decade_end: params.decade_end
+                        })
+                    }),
+                    fetch('/api/statistics', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            analysis_type: 'peaks',
+                            emotion: params.emotion,
+                            language: params.language === 'All' ? 'English' : params.language,
+                            decade_start: params.decade_start,
+                            decade_end: params.decade_end
+                        })
+                    })
+                ]);
+                
+                const trendData = await trendRes.json();
+                const peaksData = await peaksRes.json();
+                
+                if (trendData.success && peaksData.success) {
+                    displayStatsPanel('ts-stats', trendData.data, peaksData.data);
+                }
+            } catch (e) {
+                console.log('Analysis not available');
+            }
+        }
+
+        async function runCrossCorrelationAnalysis(params) {
+            try {
+                const response = await fetch('/api/statistics', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        analysis_type: 'cross_correlation',
+                        emotion1: params.emotion1,
+                        emotion2: params.emotion2,
+                        language: params.language,
+                        max_lag: 5
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    displayCrossCorrStats('cross-corr-stats', result.data);
+                }
+            } catch (e) {
+                console.log('Analysis not available');
+            }
+        }
+
+        function displayStatsPanel(panelId, trendData, peaksData) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = 'block';
+            
+            let html = '<h6>Statistical Analysis</h6>';
+            
+            if (trendData && !trendData.error) {
+                html += `
+                    <div class="stat-item">
+                        <span>Trend:</span>
+                        <span class="significance">${trendData.trend}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Slope:</span>
+                        <span>${trendData.slope.toFixed(4)}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>R²:</span>
+                        <span>${trendData.r_squared.toFixed(3)}</span>
+                    </div>
+                `;
+            }
+            
+            if (peaksData && peaksData.peaks && peaksData.peaks.length > 0) {
+                html += `<div class="stat-item"><span>Significant Peaks:</span><span>${peaksData.peaks.length}</span></div>`;
+                peaksData.peaks.forEach(peak => {
+                    html += `<div class="stat-item"><span>&nbsp;&nbsp;${peak.decade}s:</span><span>${peak.value.toFixed(3)}</span></div>`;
+                });
+            }
+            
+            panel.innerHTML = html;
+        }
+
+        function displayCrossCorrStats(panelId, data) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = 'block';
+            
+            panel.innerHTML = `
+                <h6>Cross-Correlation Analysis</h6>
+                <div class="stat-item">
+                    <span>Interpretation:</span>
+                    <span>${data.interpretation}</span>
+                </div>
+                <div class="stat-item">
+                    <span>Correlation (lag=0):</span>
+                    <span>${data.correlations.lag_0?.toFixed(3) || 'N/A'}</span>
+                </div>
+            `;
+        }
+
+        // Map graph types to their info-card element IDs
+        const infoCardIdMap = {
+            'timeseries': 'timeseries-info',
+            'multi_emotion': 'multi-emotion-info',
+            'radar': 'radar-info',
+            'correlation': 'correlation-info',
+            'mirror': 'mirror-info',
+            'heatmap': 'heatmap-info',
+            'distribution': 'distribution-info',
+            'literary_period': 'period-info',
+            'cross_correlation': 'cross-corr-info'
+        };
+
+        // Fetch and display insights for each graph type
+        async function fetchInsights(graphType, data) {
+            const infoCardId = infoCardIdMap[graphType] || `${graphType}-info`;
+            const infoCard = document.getElementById(infoCardId);
+            
+            if (!infoCard) return;
+            
+            try {
+                const response = await fetch('/api/insights', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ graph_type: graphType, ...data })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    displayInsights(graphType, result.insights);
+                } else {
+                    infoCard.innerHTML = `<div class="text-muted">Unable to generate insights</div>`;
+                }
+            } catch (error) {
+                infoCard.innerHTML = `<div class="text-muted">Error loading insights</div>`;
+            }
+        }
+
+        function displayInsights(graphType, insights) {
+            const infoCardId = infoCardIdMap[graphType] || `${graphType}-info`;
+            const infoCard = document.getElementById(infoCardId);
+            
+            if (!infoCard) return;
+            
+            let html = `<h6 class="card-title"><i class="bi bi-lightbulb"></i> Insights</h6>`;
+            
+            switch(graphType) {
+                case 'timeseries':
+                    html = displayTimeseriesInsights(insights, html);
+                    break;
+                case 'multi_emotion':
+                    html = displayMultiEmotionInsights(insights, html);
+                    break;
+                case 'radar':
+                    html = displayRadarInsights(insights, html);
+                    break;
+                case 'correlation':
+                    html = displayCorrelationInsights(insights, html);
+                    break;
+                case 'mirror':
+                    html = displayMirrorInsights(insights, html);
+                    break;
+                case 'heatmap':
+                    html = displayHeatmapInsights(insights, html);
+                    break;
+                case 'distribution':
+                    html = displayDistributionInsights(insights, html);
+                    break;
+                case 'literary_period':
+                    html = displayPeriodInsights(insights, html);
+                    break;
+                case 'cross_correlation':
+                    html = displayCrossCorrInsights(insights, html);
+                    break;
+            }
+            
+            infoCard.innerHTML = html;
+        }
+
+        function displayTimeseriesInsights(insights, html) {
+            for (const [lang, data] of Object.entries(insights)) {
+                // Use plain language data
+                const plain = data.plain || {};
+                const tech = data.technical || {};
+                
+                const trendClass = plain.trend_direction === 'increasing' ? 'positive' : 
+                                   plain.trend_direction === 'decreasing' ? 'negative' : 'neutral';
+                
+                html += `
+                    <div class="mb-2"><strong>${lang}</strong></div>
+                    <div class="info-row">
+                        <span class="info-label">${plain.trend_emoji || '➡️'}</span>
+                        <span class="info-value ${trendClass}">${plain.trend_text || 'Unknown'}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label"><i class="bi bi-lightbulb"></i> Summary</span>
+                        <span class="info-value">${plain.headline || ''}</span>
+                    </div>
+                    ${plain.peak_decade ? `<div class="info-row"><span class="info-label"><i class="bi bi-mountains"></i> Peak</span><span class="info-value">${plain.peak_desc || ''}</span></div>` : ''}
+                    <div class="info-row">
+                        <span class="info-label"><i class="bi bi-info-circle"></i> What it means</span>
+                        <span class="info-value" style="font-size: 0.85rem;">${plain.what_means || ''}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label"><i class="bi bi-collection"></i> Data</span>
+                        <span class="info-value">${plain.data_sources || ''}</span>
+                    </div>
+                `;
+                
+                // Add collapsible technical section
+                if (Object.keys(tech).length > 0) {
+                    html += `
+                        <div class="technical-details">
+                            <div class="technical-toggle" onclick="toggleTechnical(this)">
+                                <i class="bi bi-chevron-down"></i> Show Technical Details
+                            </div>
+                            <div class="technical-content">
+                                <div class="tech-row"><span class="tech-label">Trend</span><span class="tech-value">${tech.trend || ''}</span></div>
+                                <div class="tech-row"><span class="tech-label">Slope</span><span class="tech-value">${tech.slope?.toFixed(5) || ''}</span></div>
+                                <div class="tech-row"><span class="tech-label">R²</span><span class="tech-value">${tech.r_squared?.toFixed(3) || ''}</span></div>
+                                <div class="tech-row"><span class="tech-label">p-value</span><span class="tech-value">${tech.p_value?.toFixed(4) || ''}</span></div>
+                                <div class="tech-row"><span class="tech-label">Mean</span><span class="tech-value">${tech.mean?.toFixed(4) || ''}</span></div>
+                                <div class="tech-row"><span class="tech-label">Std Dev</span><span class="tech-value">${tech.std?.toFixed(4) || ''}</span></div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            return html;
+        }
+
+        function displayMultiEmotionInsights(insights, html) {
+            for (const [lang, data] of Object.entries(insights)) {
+                const plain = data.plain || {};
+                const tech = data.technical || {};
+                
+                if (plain.highest_emotion) {
+                    html += `
+                        <div class="mb-2"><strong>${lang}</strong></div>
+                        <div class="info-row">
+                            <span class="info-label">${plain.headline?.split(' ')[0] || '🏆'}</span>
+                            <span class="info-value positive">${plain.highest_emotion || ''}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label"><i class="bi bi-info-circle"></i> Insight</span>
+                            <span class="info-value" style="font-size: 0.85rem;">${plain.insight || ''}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label"><i class="bi bi-lightbulb"></i> What it means</span>
+                            <span class="info-value" style="font-size: 0.85rem;">${plain.what_means || ''}</span>
+                        </div>
+                    `;
+                    
+                    if (tech.ranking && tech.ranking.length > 0) {
+                        html += `<div class="info-row"><span class="info-label">Top 3</span><span class="info-value">${tech.ranking.slice(0, 3).map(r => r.emotion).join(', ')}</span></div>`;
+                    }
+                    
+                    if (Object.keys(tech).length > 0) {
+                        html += `
+                            <div class="technical-details">
+                                <div class="technical-toggle" onclick="toggleTechnical(this)">
+                                    <i class="bi bi-chevron-down"></i> Show Technical Details
+                                </div>
+                                <div class="technical-content">
+                                    <div class="tech-row"><span class="tech-label">Highest</span><span class="tech-value">${tech.highest || ''}</span></div>
+                                    <div class="tech-row"><span class="tech-label">Lowest</span><span class="tech-value">${tech.lowest || ''}</span></div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+            }
+            return html;
+        }
+
+        function displayRadarInsights(insights, html) {
+            for (const [lang, data] of Object.entries(insights)) {
+                if (data.dominant) {
+                    html += `
+                        <div class="mb-2"><strong>${lang}</strong></div>
+                        <div class="info-row">
+                            <span class="info-label"><i class="bi bi-star"></i> Dominant</span>
+                            <span class="info-value">${data.dominant} (${data.dominant_pct.toFixed(1)}%)</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label"><i class="bi bi-arrow-down"></i> Lowest</span>
+                            <span class="info-value">${data.lowest} (${data.lowest_pct.toFixed(1)}%)</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label"><i class="bi bi-lightbulb"></i> Insight</span>
+                            <span class="info-value">${data.insight}</span>
+                        </div>
+                    `;
+                }
+            }
+            return html;
+        }
+
+        function displayCorrelationInsights(insights, html) {
+            for (const [lang, data] of Object.entries(insights)) {
+                html += `<div class="mb-2"><strong>${lang}</strong></div>`;
+                
+                if (data.strongest_positive) {
+                    html += `
+                        <div class="info-row">
+                            <span class="info-label"><i class="bi bi-plus-circle"></i> Strongest +</span>
+                            <span class="info-value positive">${data.strongest_positive.emotion1} ↔ ${data.strongest_positive.emotion2} (${data.strongest_positive.value.toFixed(2)})</span>
+                        </div>
+                    `;
+                }
+                
+                if (data.strongest_negative) {
+                    html += `
+                        <div class="info-row">
+                            <span class="info-label"><i class="bi bi-dash-circle"></i> Strongest -</span>
+                            <span class="info-value negative">${data.strongest_negative.emotion1} ↔ ${data.strongest_negative.emotion2} (${data.strongest_negative.value.toFixed(2)})</span>
+                        </div>
+                    `;
+                }
+                
+                if (data.most_independent) {
+                    html += `
+                        <div class="info-row">
+                            <span class="info-label"><i class="bi bi-question-circle"></i> Most Independent</span>
+                            <span class="info-value">${data.most_independent}</span>
+                        </div>
+                    `;
+                }
+                
+                html += `
+                    <div class="info-row">
+                        <span class="info-label"><i class="bi bi-lightbulb"></i> Key Finding</span>
+                        <span class="info-value">${data.insight}</span>
+                    </div>
+                `;
+            }
+            return html;
+        }
+
+        function displayMirrorInsights(insights, html) {
+            const data = insights;
+            
+            const evidenceIcon = data.evidence === 'positive' ? 'bi-check-circle' : 
+                               data.evidence === 'negative' ? 'bi-exclamation-circle' : 'bi-dash-circle';
+            const evidenceClass = data.evidence === 'positive' ? 'positive' : 
+                                 data.evidence === 'negative' ? 'negative' : 'neutral';
+            
+            html += `
+                <div class="info-row">
+                    <span class="info-label"><i class="bi bi-link-45deg"></i> Correlation</span>
+                    <span class="info-value">r = ${data.correlation.toFixed(2)}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="bi ${evidenceIcon}"></i> Evidence</span>
+                    <span class="info-value ${evidenceClass}">${data.finding}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="bi bi-book"></i> Literature Peak</span>
+                    <span class="info-value">${data.literature_peak ? data.literature_peak + 's' : 'N/A'}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="bi bi-clock-history"></i> History Peak</span>
+                    <span class="info-value">${data.history_peak ? data.history_peak + 's' : 'N/A'}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="bi bi-lightbulb"></i> Insight</span>
+                    <span class="info-value">${data.insight}</span>
+                </div>
+            `;
+            
+            return html;
+        }
+
+        function displayHeatmapInsights(insights, html) {
+            for (const [lang, data] of Object.entries(insights)) {
+                html += `<div class="mb-2"><strong>${lang}</strong></div>`;
+                
+                if (data.hottest_decade) {
+                    html += `
+                        <div class="info-row">
+                            <span class="info-label"><i class="bi bi-fire"></i> Hottest Decade</span>
+                            <span class="info-value">${data.hottest_decade}s</span>
+                        </div>
+                    `;
+                }
+                
+                if (data.hottest_emotion) {
+                    html += `
+                        <div class="info-row">
+                            <span class="info-label"><i class="bi bi-emoji-sunglasses"></i> Top Emotion</span>
+                            <span class="info-value">${data.hottest_emotion}</span>
+                        </div>
+                    `;
+                }
+                
+                html += `
+                    <div class="info-row">
+                        <span class="info-label"><i class="bi bi-graph-up"></i> Overall Trend</span>
+                        <span class="info-value">${data.trend}</span>
+                    </div>
+                `;
+            }
+            return html;
+        }
+
+        function displayDistributionInsights(insights, html) {
+            for (const [lang, data] of Object.entries(insights)) {
+                html += `<div class="mb-2"><strong>${lang}</strong></div>`;
+                
+                if (data.stats) {
+                    const emotionKeys = Object.keys(data.stats);
+                    if (emotionKeys.length > 0) {
+                        const firstEmotion = emotionKeys[0];
+                        const stats = data.stats[firstEmotion];
+                        
+                        html += `
+                            <div class="info-row">
+                                <span class="info-label"><i class="bi bi-calculator"></i> Mean</span>
+                                <span class="info-value">${stats.mean.toFixed(3)}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label"><i class="bi bi-center"></i> Median</span>
+                                <span class="info-value">${stats.median.toFixed(3)}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label"><i class="bi bi-arrows-expand"></i> Range</span>
+                                <span class="info-value">${stats.min.toFixed(3)} - ${stats.max.toFixed(3)}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label"><i class="bi bi-pie-chart"></i> Distribution</span>
+                                <span class="info-value">${stats.shape}</span>
+                            </div>
+                        `;
+                        
+                        if (data.outliers && data.outliers.length > 0) {
+                            html += `
+                                <div class="info-row">
+                                    <span class="info-label"><i class="bi bi-exclamation-triangle"></i> Outliers</span>
+                                    <span class="info-value">${data.outliers.length} detected</span>
+                                </div>
+                            `;
+                        }
+                    }
+                }
+            }
+            return html;
+        }
+
+        function displayPeriodInsights(insights, html) {
+            const data = insights;
+            
+            html += `
+                <div class="info-row">
+                    <span class="info-label"><i class="bi bi-calendar-range"></i> Period</span>
+                    <span class="info-value">${data.period} (${data.year_range[0]}-${data.year_range[1]})</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="bi bi-globe"></i> Languages</span>
+                    <span class="info-value">${data.languages.join(', ')}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="bi bi-calculator"></i> Avg Intensity</span>
+                    <span class="info-value">${data.avg_intensity.toFixed(3)}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="bi bi-lightbulb"></i> Insight</span>
+                    <span class="info-value">${data.insight}</span>
+                </div>
+            `;
+            
+            return html;
+        }
+
+        function displayCrossCorrInsights(insights, html) {
+            const data = insights;
+            
+            const strengthClass = data.strength === 'Strong' ? 'positive' : 
+                                 data.strength === 'Moderate' ? 'neutral' : 'negative';
+            
+            html += `
+                <div class="info-row">
+                    <span class="info-label"><i class="bi bi-link-45deg"></i> Correlation</span>
+                    <span class="info-value">${data.correlation.toFixed(2)}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="bi bi-grip-horizontal"></i> Strength</span>
+                    <span class="info-value ${strengthClass}">${data.strength}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="bi bi-arrow-left-right"></i> Best Lag</span>
+                    <span class="info-value">${data.best_lag} decades</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="bi bi-lightbulb"></i> Interpretation</span>
+                    <span class="info-value">${data.interpretation}</span>
+                </div>
+            `;
+            
+            return html;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFromURL();
+        });
+
+        // Keyboard accessibility
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && e.target.classList.contains('form-select')) {
+                const tab = e.target.closest('.tab-pane');
+                if (tab) {
+                    const generateBtn = tab.querySelector('.btn-generate');
+                    if (generateBtn) {
+                        generateBtn.click();
+                    }
+                }
+            }
+        });
+
+        // Toggle technical details visibility
+        function toggleTechnical(element) {
+            element.classList.toggle('open');
+            const content = element.nextElementSibling;
+            content.classList.toggle('show');
+            element.innerHTML = content.classList.contains('show') 
+                ? '<i class="bi bi-chevron-up"></i> Hide Technical Details'
+                : '<i class="bi bi-chevron-down"></i> Show Technical Details';
+        }
+
+        // Simplified display functions for remaining graph types
+        function displayRadarInsights(insights, html) {
+            for (const [lang, data] of Object.entries(insights)) {
+                const plain = data.plain || {};
+                const tech = data.technical || {};
+                
+                if (plain.dominant) {
+                    html += `<div class="mb-2"><strong>${lang}</strong></div>`;
+                    html += `<div class="info-row"><span class="info-label">🏆</span><span class="info-value">${plain.dominant} (${plain.dominant_pct?.toFixed(1)}%)</span></div>`;
+                    html += `<div class="info-row"><span class="info-label"><i class="bi bi-lightbulb"></i> What it means</span><span class="info-value" style="font-size: 0.85rem;">${plain.what_means || ''}</span></div>`;
+                    
+                    if (tech.all_emotions) {
+                        html += `<div class="info-row"><span class="info-label">Lowest</span><span class="info-value">${plain.lowest} (${plain.lowest_pct?.toFixed(1)}%)</span></div>`;
+                    }
+                }
+            }
+            return html;
+        }
+
+        function displayCorrelationInsights(insights, html) {
+            for (const [lang, data] of Object.entries(insights)) {
+                const plain = data.plain || {};
+                const tech = data.technical || {};
+                
+                html += `<div class="mb-2"><strong>${lang}</strong></div>`;
+                html += `<div class="info-row"><span class="info-label">🤝</span><span class="info-value">${plain.relationship || ''}</span></div>`;
+                html += `<div class="info-row"><span class="info-label">⚔️</span><span class="info-value">${plain.opposite || ''}</span></div>`;
+                html += `<div class="info-row"><span class="info-label"><i class="bi bi-lightbulb"></i> What it means</span><span class="info-value" style="font-size: 0.85rem;">${plain.what_means || ''}</span></div>`;
+            }
+            return html;
+        }
+
+        function displayMirrorInsights(insights, html) {
+            const plain = insights.plain || {};
+            const tech = insights.technical || {};
+            
+            html += `<div class="info-row"><span class="info-label">${plain.emoji || '❓'}</span><span class="info-value">${plain.simple_finding || ''}</span></div>`;
+            html += `<div class="info-row"><span class="info-label">📊</span><span class="info-value">${plain.strength_pct || 0}% match</span></div>`;
+            html += `<div class="info-row"><span class="info-label">📚 Peak</span><span class="info-value">${plain.literature_peak || ''}</span></div>`;
+            html += `<div class="info-row"><span class="info-label">🏛️ History Peak</span><span class="info-value">${plain.history_peak || ''}</span></div>`;
+            html += `<div class="info-row"><span class="info-label"><i class="bi bi-lightbulb"></i> What it means</span><span class="info-value" style="font-size: 0.85rem;">${plain.what_means || ''}</span></div>`;
+            
+            return html;
+        }
+
+        function displayHeatmapInsights(insights, html) {
+            for (const [lang, data] of Object.entries(insights)) {
+                const plain = data.plain || {};
+                
+                html += `<div class="mb-2"><strong>${lang}</strong></div>`;
+                html += `<div class="info-row"><span class="info-label">${plain.trend_emoji || '📊'}</span><span class="info-value">${plain.headline || ''}</span></div>`;
+                html += `<div class="info-row"><span class="info-label">${plain.peak_desc || ''}</span></div>`;
+                html += `<div class="info-row"><span class="info-label"><i class="bi bi-lightbulb"></i> What it means</span><span class="info-value" style="font-size: 0.85rem;">${plain.what_means || ''}</span></div>`;
+            }
+            return html;
+        }
+
+        function displayDistributionInsights(insights, html) {
+            for (const [lang, data] of Object.entries(insights)) {
+                const plain = data.plain || {};
+                
+                html += `<div class="mb-2"><strong>${lang}</strong></div>`;
+                html += `<div class="info-row"><span class="info-label">${plain.headline || ''}</span></div>`;
+                html += `<div class="info-row"><span class="info-label">📊</span><span class="info-value">${plain.typical_range || ''}</span></div>`;
+                html += `<div class="info-row"><span class="info-label"><i class="bi bi-lightbulb"></i> What it means</span><span class="info-value" style="font-size: 0.85rem;">${plain.what_means || ''}</span></div>`;
+                html += `<div class="info-row"><span class="info-label">⚠️</span><span class="info-value">${plain.outlier_text || ''}</span></div>`;
+            }
+            return html;
+        }
+
+        function displayPeriodInsights(insights, html) {
+            const plain = insights.plain || {};
+            
+            html += `<div class="info-row"><span class="info-label">${plain.period_emoji || '📚'}</span><span class="info-value">${plain.headline || ''}</span></div>`;
+            html += `<div class="info-row"><span class="info-label"><i class="bi bi-info-circle"></i> Period</span><span class="info-value">${plain.period_desc || ''}</span></div>`;
+            html += `<div class="info-row"><span class="info-label"><i class="bi bi-lightbulb"></i> What it means</span><span class="info-value" style="font-size: 0.85rem;">${plain.what_means || ''}</span></div>`;
+            html += `<div class="info-row"><span class="info-label">💡</span><span class="info-value">${plain.recommendation || ''}</span></div>`;
+            
+            return html;
+        }
+
+        function displayCrossCorrInsights(insights, html) {
+            const plain = insights.plain || {};
+            const tech = insights.technical || {};
+            
+            html += `<div class="info-row"><span class="info-label">${plain.headline || ''}</span></div>`;
+            html += `<div class="info-row"><span class="info-label">${plain.relationship || ''}</span></div>`;
+            html += `<div class="info-row"><span class="info-label">⏱️</span><span class="info-value">${plain.timing_text || ''}</span></div>`;
+            html += `<div class="info-row"><span class="info-label"><i class="bi bi-lightbulb"></i> What it means</span><span class="info-value" style="font-size: 0.85rem;">${plain.what_means || ''}</span></div>`;
+            
+            return html;
+        }
+
+        // Make Plotly charts responsive on window resize
+        window.addEventListener('resize', function() {
+            const graphContainers = document.querySelectorAll('.graph-container');
+            graphContainers.forEach(function(container) {
+                const plotlyDiv = container.querySelector('.js-plotly-plot, .plotly');
+                if (plotlyDiv) {
+                    Plotly.Plots.resize(plotlyDiv);
+                }
+            });
+        });
     </script>
 </body>
 </html>

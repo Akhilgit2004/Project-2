@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glossary - Cross-Cultural Emotions Dashboard</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="/static/css/shared.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#1f77b4' },
+                    fontFamily: { sans: ['Inter', 'Segoe UI', 'system-ui', 'sans-serif'] },
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        /* Page-specific styles for glossary */
+        .glossary-card { 
+            background: var(--bg-card); 
+            border: 1px solid var(--border-color); 
+            border-radius: 0.75rem; 
+            padding: 1.5rem; 
+            margin-bottom: 1rem; 
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+        
+        .glossary-card:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+        }
+        
+        .term { 
+            font-weight: 700; 
+            color: var(--primary); 
+            font-size: 1.2rem; 
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-control {
+            background: var(--bg-card);
+            border-color: var(--border-color);
+            border-radius: 0.75rem;
+            color: var(--text-primary);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(31, 119, 180, 0.15);
+        }
+        
+        .form-control::placeholder {
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm glass sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/" style="font-weight: 700; font-size: 1.5rem; background: linear-gradient(135deg, var(--primary), #2c5aa0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                <i class="fas fa-chart-line me-2" style="color: var(--primary); -webkit-text-fill-color: var(--primary);"></i>
+                Cross-Cultural Emotions
+            </a>
+            <div class="d-flex align-items-center gap-2">
+                <button class="theme-toggle btn-icon" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme (Ctrl+T)" style="width: 40px; height: 40px;">
+                    <i class="fas fa-moon" id="theme-icon"></i>
+                </button>
+                <a href="/" class="btn btn-outline-primary">
+                <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
+            </a>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <h1 class="mb-4"><i class="fas fa-bookmark me-3"></i>Glossary</h1>
+        
+        <div class="mb-4">
+            <input type="text" class="form-control" id="searchGlossary" placeholder="Search terms..." onkeyup="filterGlossary()">
+        </div>
+
+        <div id="glossaryList">
+            <div class="glossary-card">
+                <div class="term">Correlation</div>
+                <p>A statistical measure that describes the strength and direction of a linear relationship between two variables. Values range from -1 (perfect negative) to +1 (perfect positive).</p>
+            </div>
+
+            <div class="glossary-card">
+                <div class="term">Cross-Correlation</div>
+                <p>Measures the similarity between two time series as a function of the displacement (lag) of one relative to the other. Used to identify delayed relationships between emotions.</p>
+            </div>
+
+            <div class="glossary-card">
+                <div class="term">Decade</div>
+                <p>A 10-year period used as the basic unit of temporal analysis. Our data spans from the 1810s to the 1960s.</p>
+            </div>
+
+            <div class="glossary-card">
+                <div class="term">Emotion Intensity</div>
+                <p>A numerical value (0-1) representing the strength of a particular emotion detected in a text, based on the frequency and context of emotional language.</p>
+            </div>
+
+            <div class="glossary-card">
+                <div class="term">Heatmap</div>
+                <p>A data visualization technique that uses color coding to represent different values. In our dashboard, it shows emotion intensities across decades, with warmer colors indicating higher intensity.</p>
+            </div>
+
+            <div class="glossary-card">
+                <div class="term">Lag</div>
+                <p>In time series analysis, the number of time periods by which one variable is shifted relative to another to measure correlation.</p>
+            </div>
+
+            <div class="glossary-card">
+                <div class="term">Literary Period</div>
+                <p>A defined era in literary history characterized by distinctive themes, styles, and conventions. Examples include Romantic (1810-1840), Victorian (1840-1900), and Modern (1910-1960).</p>
+            </div>
+
+            <div class="glossary-card">
+                <div class="term">Mirror Hypothesis</div>
+                <p>The theory that emotional content in literature reflects the emotional climate of the society and historical events of the time period in which it was produced.</p>
+            </div>
+
+            <div class="glossary-card">
+                <div class="term">Pearson Correlation</div>
+                <p>The most common measure of linear correlation between two variables, calculated as the covariance divided by the product of standard deviations.</p>
+            </div>
+
+            <div class="glossary-card">
+                <div class="term">Radar Chart</div>
+                <p>Also called a spider chart or polar chart. A graphical method of displaying multivariate data in the form of a two-dimensional chart of quantitative variables.</p>
+            </div>
+
+            <div class="glossary-card">
+                <div class="term">Rolling Average</div>
+                <p>A smoothing technique that calculates the average of a subset of neighboring data points. We use a 3-decade centered window to smooth temporal variations.</p>
+            </div>
+
+            <div class="glossary-card">
+                <div class="term">R² (R-squared)</div>
+                <p>A statistical measure that represents the proportion of the variance for a dependent variable that's explained by an independent variable in a regression model.</p>
+            </div>
+
+            <div class="glossary-card">
+                <div class="term">Statistical Significance</div>
+                <p>A result that is unlikely to have occurred by chance alone. We use p-values to determine significance, with p < 0.05 typically considered significant.</p>
+            </div>
+
+            <div class="glossary-card">
+                <div class="term">Time Series</div>
+                <p>A sequence of data points indexed in time order, typically measured at successive points (in our case, decades).</p>
+            </div>
+
+            <div class="glossary-card">
+                <div class="term">Trendline</div>
+                <p>A line that best represents the overall direction of data points in a scatter plot, typically calculated using linear regression.</p>
+            </div>
+
+            <div class="glossary-card">
+                <div class="term">Violin Plot</div>
+                <p>A combination of a box plot and a kernel density plot. It shows the distribution of data across different categories, with wider sections indicating higher probability.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function filterGlossary() {
+            const searchText = document.getElementById('searchGlossary').value.toLowerCase();
+            const cards = document.querySelectorAll('.glossary-card');
+            
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(searchText)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        // Theme management
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+            
+            const icon = document.getElementById('theme-icon');
+            icon.className = newTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+            
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.getElementById('theme-icon').className = savedTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+
+        // Keyboard shortcut for theme toggle
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 't') {
+                e.preventDefault();
+                toggleTheme();
+            }
+        });
+    </script>
+</body>
+</html>

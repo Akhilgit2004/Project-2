@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Methodology - Cross-Cultural Emotions Dashboard</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="/static/css/shared.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#1f77b4' },
+                    fontFamily: { sans: ['Inter', 'Segoe UI', 'system-ui', 'sans-serif'] },
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        /* Page-specific styles for methodology */
+        .methodology-section { padding: 2rem 0; }
+        .section-icon { font-size: 2rem; color: var(--primary); margin-bottom: 1rem; }
+        
+        /* Page title styling */
+        .container h1 {
+            background: linear-gradient(135deg, var(--primary), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+        
+        /* Manual accordion - no Bootstrap JS needed */
+        .methodology-accordion .accordion-item {
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            margin-bottom: 0.75rem;
+            overflow: hidden;
+            background: var(--bg-card);
+        }
+        
+        .methodology-accordion .accordion-button {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 1rem 1.25rem;
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text-primary);
+            background: var(--bg-card);
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .methodology-accordion .accordion-button:hover {
+            background: var(--border-color);
+        }
+        
+        .methodology-accordion .accordion-button::after {
+            content: '\f078';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-left: auto;
+            transition: transform 0.3s ease;
+        }
+        
+        .methodology-accordion .accordion-button.active::after {
+            transform: rotate(180deg);
+        }
+        
+        .methodology-accordion .accordion-button.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+        
+        .methodology-accordion .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .methodology-accordion .accordion-content.show {
+            max-height: 500px;
+        }
+        
+        .methodology-accordion .accordion-body {
+            padding: 1.25rem;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .methodology-accordion .accordion-body ul {
+            padding-left: 1.5rem;
+        }
+        
+        .methodology-accordion .accordion-body li {
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        
+        .methodology-accordion .accordion-body strong {
+            color: var(--primary);
+        }
+        
+        /* Headings styling */
+        .methodology-accordion .accordion-body h5 {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        /* Multiple h5 headings - consistent spacing */
+        .methodology-accordion .accordion-body h5.mt-4 {
+            margin-top: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        /* Paragraphs and lists */
+        .methodology-accordion .accordion-body p {
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        .methodology-accordion .accordion-body p:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm glass sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/" style="font-weight: 700; font-size: 1.5rem; background: linear-gradient(135deg, var(--primary), #2c5aa0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                <i class="fas fa-chart-line me-2" style="color: var(--primary); -webkit-text-fill-color: var(--primary);"></i>
+                Cross-Cultural Emotions
+            </a>
+            <div class="d-flex align-items-center gap-2">
+                <button class="theme-toggle btn-icon" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme (Ctrl+T)" style="width: 40px; height: 40px;">
+                    <i class="fas fa-moon" id="theme-icon"></i>
+                </button>
+                <a href="/" class="btn btn-outline-primary">
+                <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
+            </a>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <h1 class="mb-4"><i class="fas fa-book me-3"></i>Methodology</h1>
+        
+        <div class="methodology-accordion" id="methodologyAccordion">
+            <div class="accordion-item">
+                <button class="accordion-button active" onclick="toggleAccordion(this)">
+                    <i class="fas fa-database me-2"></i> Data Collection
+                </button>
+                <div class="accordion-content show">
+                    <div class="accordion-body">
+                        <h5>Corpus Selection</h5>
+                        <p>The analysis is based on literary texts from three major languages:</p>
+                        <ul>
+                            <li><strong>English:</strong> Literature from British, American, and other English-speaking regions (1810-1960)</li>
+                            <li><strong>Hindi:</strong> Literature from the Hindi heartland of India (1810-1960)</li>
+                            <li><strong>Tamil:</strong> Literature from Tamil Nadu, India, and Sri Lanka (1810-1960)</li>
+                        </ul>
+                        <p>Each corpus was selected to represent the major literary movements and cultural contexts of each language tradition.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-button" onclick="toggleAccordion(this)">
+                    <i class="fas fa-brain me-2"></i> Emotion Detection
+                </button>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <h5>Emotion Classification Model</h5>
+                        <p>We employ a multi-class emotion detection model based on natural language processing techniques:</p>
+                        <ul>
+                            <li><strong>Emotion Categories:</strong> 11 emotions - Anger, Contempt, Disgust, Fear, Frustration, Gratitude, Joy, Love, Neutral, Sadness, Surprise</li>
+                            <li><strong>Method:</strong> Machine learning classifier trained on annotated literary text segments</li>
+                            <li><strong>Validation:</strong> Cross-validated against human expert annotations</li>
+                        </ul>
+                        <h5 class="mt-4">Intensity Measurement</h5>
+                        <p>Each text segment receives a probability score (0-1) for each emotion category. The intensity is calculated as the weighted sum of these probabilities across all segments in a given decade.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-button" onclick="toggleAccordion(this)">
+                    <i class="fas fa-chart-line me-2"></i> Data Aggregation
+                </button>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <h5>Temporal Aggregation</h5>
+                        <p>Texts are grouped by decade (1810s, 1820s, ..., 1960s). For each decade, we calculate:</p>
+                        <ul>
+                            <li><strong>Mean Intensity:</strong> Average emotion score across all texts in that decade</li>
+                            <li><strong>Rolling Average:</strong> 3-decade centered moving average for trend smoothing</li>
+                        </ul>
+                        <h5 class="mt-4">Cross-Cultural Normalization</h5>
+                        <p>To enable meaningful comparison across languages, emotion scores are normalized proportionally within each language dataset, allowing us to compare relative emotional emphasis rather than absolute values.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-button" onclick="toggleAccordion(this)">
+                    <i class="fas fa-calculator me-2"></i> Statistical Methods
+                </button>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <h5>Correlation Analysis</h5>
+                        <p>Pearson correlation coefficients are calculated between all emotion pairs to identify emotional co-occurrence patterns.</p>
+                        <h5 class="mt-4">Significance Testing</h5>
+                        <p>Independent samples t-tests are used to determine statistically significant differences in emotion intensities between languages.</p>
+                        <ul>
+                            <li><strong>p &lt; 0.05:</strong> * (significant)</li>
+                            <li><strong>p &lt; 0.01:</strong> ** (highly significant)</li>
+                            <li><strong>p &lt; 0.001:</strong> *** (very highly significant)</li>
+                        </ul>
+                        <h5 class="mt-4">Trend Analysis</h5>
+                        <p>Linear regression is applied to identify overall trends in emotional trajectories over time. The R² value indicates the strength of the trend.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-button" onclick="toggleAccordion(this)">
+                    <i class="fas fa-exclamation-triangle me-2"></i> Limitations and Considerations
+                </button>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <ul>
+                            <li><strong>Corpus Size:</strong> The size and representativeness of each language corpus may vary</li>
+                            <li><strong>Translation Effects:</strong> Emotion detection may be affected by translation quality</li>
+                            <li><strong>Historical Bias:</strong> Literary canon selection may reflect historical biases</li>
+                            <li><strong>Temporal Resolution:</strong> Decade-level aggregation may miss shorter-term variations</li>
+                            <li><strong>Cultural Specificity:</strong> Some emotions may be more culturally embedded than others</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-button" onclick="toggleAccordion(this)">
+                    <i class="fas fa-quote-left me-2"></i> References
+                </button>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <ol>
+                            <li>Ekman, P. (1992). An argument for basic emotions. Cognition and Emotion, 6(3-4), 169-200.</li>
+                            <li>P lexicon: Mohammad, S. (2018). Emoji Sentiment Ranking 1.0.</li>
+                            <li>Bird, S., Klein, E., & Loper, E. (2009). Natural Language Processing with Python.</li>
+                            <li>Plutchik, R. (2001). The nature of emotions. American Scientist, 89(4), 344-350.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Theme management
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+            
+            const icon = document.getElementById('theme-icon');
+            icon.className = newTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+            
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.getElementById('theme-icon').className = savedTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+
+        // Keyboard shortcut for theme toggle
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 't') {
+                e.preventDefault();
+                toggleTheme();
+            }
+        });
+        
+        // Manual accordion toggle
+        function toggleAccordion(button) {
+            // Close all other accordions
+            const allButtons = document.querySelectorAll('.methodology-accordion .accordion-button');
+            const allContents = document.querySelectorAll('.methodology-accordion .accordion-content');
+            
+            allButtons.forEach(btn => {
+                if (btn !== button) {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            allContents.forEach(content => {
+                if (content !== button.nextElementSibling) {
+                    content.classList.remove('show');
+                }
+            });
+            
+            // Toggle current
+            button.classList.toggle('active');
+            const content = button.nextElementSibling;
+            content.classList.toggle('show');
+        }
+    </script>
+</body>
+</html>
