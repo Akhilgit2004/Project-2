@@ -2747,20 +2747,29 @@
 
         // Download graph
         function downloadGraph(format) {
-            const img = document.getElementById('current-graph-img');
-            if (!img) {
+            if (!currentGraphType) {
                 alert('No graph to download. Please generate a graph first.');
                 return;
             }
-            
-            if (format === 'svg') {
-                alert('SVG download requires backend support. Using PNG instead.');
+
+            const containerId = currentGraphType === 'multi_emotion' ? 'multi-emotion-graph' :
+                              currentGraphType === 'cross_correlation' ? 'cross-corr-graph' :
+                              currentGraphType === 'literary_period' ? 'period-graph' :
+                              `${currentGraphType}-graph`;
+
+            const container = document.getElementById(containerId);
+            if (!container) {
+                alert('Graph container not found.');
+                return;
             }
-            
-            const a = document.createElement('a');
-            a.href = img.src;
-            a.download = `emotion_graph_${Date.now()}.png`;
-            a.click();
+
+            Plotly.downloadImage(container, {
+                format: format === 'svg' ? 'svg' : 'png',
+                filename: `${currentGraphType}_graph`,
+                height: 600,
+                width: 1000,
+                scale: 2
+            });
         }
 
         // Share functionality
